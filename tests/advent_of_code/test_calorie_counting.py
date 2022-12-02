@@ -13,4 +13,4 @@ def puzzle_input() -> typing.List[str]:
 
 
 def test_find_max_carried_calories_successfully_locates_value(puzzle_input) -> None:
-    assert calorie_counting.find_max_carried_calories(puzzle_input=puzzle_input) == 24000
+    assert calorie_counting.find_max_carried_calories(calories_of_food_carried=puzzle_input) == 24000
