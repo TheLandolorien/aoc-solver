@@ -38,7 +38,7 @@ testpaths = [
 ]
 
 [tool.poetry.scripts]
-solve = "scripts.solver:solve"
+solve = "advent_of_code.solver:solve"
 
 [tool.poetry.urls]
 "Bug Tracker" = "https://github.com/thelandolorien/advent-of-code-2022/issues"
