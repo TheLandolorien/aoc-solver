@@ -1,0 +1,46 @@
+[tool.poetry]
+name = "advent-of-code-2022"
+version = "0.1.0"
+description = "Python Solutions to Advent of Code 2022"
+license = "MIT"
+authors = ["Lando Toothman <25360446+TheLandolorien@users.noreply.github.com>"]
+readme = "README.md"
+packages = [
+  { include = "advent_of_code", from = "src" }
+]
+repository = "https://github.com/thelandolorien/advent-of-code-2022"
+keywords = ["advent_of_code"]
+classifiers = [
+    "Topic :: Education",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3 :: Only",
+]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+
+[tool.poetry.group.test.dependencies]
+pytest = "^7.2.0"
+coverage = "^6.5.0"
+
+[tool.poetry.group.dev.dependencies]
+black = "^22.10.0"
+
+[tool.pytest.ini_options]
+minversion = "6.2.5"
+pythonpath = [
+    "src",
+]
+testpaths = [
+    "tests",
+]
+
+[tool.poetry.urls]
+"Bug Tracker" = "https://github.com/thelandolorien/advent-of-code-2022/issues"
+"Say Thanks!" = "https://www.buymeacoffee.com/thelandolorien"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
