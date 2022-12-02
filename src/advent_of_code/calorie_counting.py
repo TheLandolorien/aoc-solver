@@ -1,10 +1,10 @@
 import typing
 
-from advent_of_code.utilities import calorie_parser, types
+from advent_of_code.utilities import parser, types
 
 
 def find_max_carried_calories(calories_of_food_carried: typing.List[str], n=1) -> int:
-    calories_per_elf = calorie_parser.parse(item_calories=calories_of_food_carried)
+    calories_per_elf = parser.parse(puzzle_input=calories_of_food_carried, calories=True)
 
     most_calories_total = 0
     for _ in range(n):
