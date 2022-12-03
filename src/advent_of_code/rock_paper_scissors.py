@@ -3,66 +3,37 @@ import typing
 from advent_of_code import types
 
 from advent_of_code.utilities import read_lines
-from advent_of_code.types import RPSPlay
 
 PUZZLE_NAME = os.path.splitext(os.path.basename(__file__))[0]
 
-# TODO: Create Score Maps and Column Maps
-RPS_MAP = {
-    "A": ("rock", 1),
-    "B": ("paper", 2),
-    "C": ("scissors", 3),
-    "X": ("rock", 1),
-    "Y": ("paper", 2),
-    "Z": ("scissors", 3),
-}
-
-CORRECTED_RPS_MAP = {
-    "A": "rock",
-    "B": "paper",
-    "C": "scissors",
-    "X": "lose",
-    "Y": "draw",
-    "Z": "win",
-}
+SHAPE_SCORES = {"rock": 1, "paper": 2, "scissors": 3}
+OUTCOME_SCORES = {"lose": 0, "draw": 3, "win": 6}
+COUNTER_MAP = {"A": "rock", "B": "paper", "C": "scissors"}
+PLAY_MAP = {"X": "rock", "Y": "paper", "Z": "scissors"}
+OUTCOME_MAP = {"X": "lose", "Y": "draw", "Z": "win"}
 
 
-def score_matches_by_play(puzzle_input: typing.List[str]) -> int:
-    matches = [play.split(" ") for play in "".join(puzzle_input).strip().split("\n")]
-    return sum([calculate_score_by_play(match) for match in matches])
+def calculate_score_by_outcomes(encrypted_counter: str, encrypted_outcome: str) -> int:
+    counter = COUNTER_MAP[encrypted_counter]
+    outcome = OUTCOME_MAP[encrypted_outcome]
+
+    return SHAPE_SCORES[determine_play(counter=counter, outcome=outcome)] + OUTCOME_SCORES[outcome]
 
 
-def calculate_score_by_play(match: typing.List[str]) -> int:
-    opponent, suggested = map(lambda play: RPSPlay(*RPS_MAP[play]), match)
-    outcome = determine_outcome(play=suggested.shape, counter=opponent.shape)
+def calculate_score_by_plays(encrypted_counter: str, encrypted_play: str) -> int:
+    counter = COUNTER_MAP[encrypted_counter]
+    play = PLAY_MAP[encrypted_play]
 
-    score = suggested.score
-    if outcome == "win":
-        score += 6
-    elif outcome == "draw":
-        score += 3
-
-    return score
+    return SHAPE_SCORES[play] + OUTCOME_SCORES[determine_outcome(counter=counter, play=play)]
 
 
-def score_matches_by_outcome(puzzle_input: typing.List[str]) -> int:
-    matches = [play.split(" ") for play in "".join(puzzle_input).strip().split("\n")]
-    return sum([calculate_score_by_outcome(match) for match in matches])
+def determine_outcome(counter: str, play: str) -> str:
+    if play == counter:
+        return "draw"
+    elif (play == "rock" and counter == "scissors") or (play == "scissors" and counter == "paper") or (play == "paper" and counter == "rock"):
+        return "win"
 
-
-def calculate_score_by_outcome(match: typing.List[str]) -> int:
-    opponent, suggestion = map(lambda x: CORRECTED_RPS_MAP[x], match)
-    play = determine_play(counter=opponent, outcome=suggestion)
-
-    shape_scores = {"rock": 1, "paper": 2, "scissors": 3}
-
-    score = shape_scores[play]
-    if suggestion == "win":
-        score += 6
-    elif suggestion == "draw":
-        score += 3
-
-    return score
+    return "lose"
 
 
 def determine_play(counter: str, outcome: str) -> str:
@@ -76,15 +47,13 @@ def determine_play(counter: str, outcome: str) -> str:
     return counter
 
 
-def determine_outcome(play: str, counter: str) -> str:
-    if play == counter:
-        return "draw"
-    elif (play == "rock" and counter == "scissors") or (play == "scissors" and counter == "paper") or (play == "paper" and counter == "rock"):
-        return "win"
+def score_matches(puzzle_input: typing.List[str], by_plays: bool = True) -> int:
+    matches = [play.split(" ") for play in "".join(puzzle_input).strip().split("\n")]
+    calculation_func = calculate_score_by_plays if by_plays else calculate_score_by_outcomes
 
-    return "lose"
+    return sum([calculation_func(*match) for match in matches])
 
 
 def solve() -> types.Solution:
     puzzle_input = read_lines(filepath=os.path.join(os.path.dirname(__file__), f"{PUZZLE_NAME}.txt"))
-    return types.Solution(first=score_matches_by_play(puzzle_input=puzzle_input), second=score_matches_by_outcome(puzzle_input=puzzle_input))
+    return types.Solution(first=score_matches(puzzle_input=puzzle_input), second=score_matches(puzzle_input=puzzle_input, by_plays=False))
