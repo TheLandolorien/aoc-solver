@@ -1,21 +1,27 @@
+import os
 import typing
 
-from advent_of_code.utilities import parser, types
+from advent_of_code import types
+from advent_of_code.utilities import read_lines
+
+PUZZLE_NAME = os.path.splitext(os.path.basename(__file__))[0]
 
 
-def find_max_carried_calories(calories_of_food_carried: typing.List[str], n=1) -> int:
-    calories_per_elf = parser.parse(puzzle_input=calories_of_food_carried, calories=True)
+def find_max_carried_calories(puzzle_input: typing.List[str], top: int = 1) -> int:
+    calories_carried_by_each_elf = [sum(map(int, calorie_counts.split("\n"))) for calorie_counts in "".join(puzzle_input).strip().split("\n\n")]
 
-    most_calories_total = 0
-    for _ in range(n):
-        most_calories_total += (max_calories := max(calories_per_elf))
-        calories_per_elf.remove(max_calories)
+    total_max_calories_carried = 0
+    for _ in range(top):
+        total_max_calories_carried += (max_calories_carried := max(calories_carried_by_each_elf))
+        calories_carried_by_each_elf.remove(max_calories_carried)
 
-    return most_calories_total
+    return total_max_calories_carried
 
 
-def solve(puzzle_input: typing.List[str]) -> types.Solution:
+def solve() -> types.Solution:
+    puzzle_input = read_lines(filepath=os.path.join(os.path.dirname(__file__), f"{PUZZLE_NAME}.txt"))
+
     return types.Solution(
-        first=find_max_carried_calories(calories_of_food_carried=puzzle_input),
-        second=find_max_carried_calories(calories_of_food_carried=puzzle_input, n=3),
+        first=find_max_carried_calories(puzzle_input=puzzle_input),
+        second=find_max_carried_calories(puzzle_input=puzzle_input, top=3),
     )
