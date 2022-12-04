@@ -7,14 +7,21 @@ from aoc_solver.utilities import Solution, read_lines
 # Source: https://adventofcode.com/2022/day/4
 
 
-def count_fully_contained_assignments(puzzle_input: typing.List[str]) -> str:
-    fully_contained_assignments = list(filter(check_assignment_containment, puzzle_input))
-    return len(fully_contained_assignments)
+def count_special_assignments(puzzle_input: typing.List[str], count_type: str = "contain") -> str:
+    count_method = check_assignment_overlap if count_type == "overlap" else check_assignment_containment
+    return len(list(filter(lambda assignments: count_method(*generate_assignment_ranges(assignments=assignments)), puzzle_input)))
 
 
-def check_assignment_containment(section_assignments: str) -> bool:
-    first, second = map(lambda assignment: generate_range_set(assignment=assignment), section_assignments.split(","))
+def generate_assignment_ranges(assignments: str) -> typing.Tuple[set, set]:
+    return map(lambda assignment: generate_range_set(assignment=assignment), assignments.split(","))
+
+
+def check_assignment_containment(first: typing.Set[int], second: typing.Set[int]) -> bool:
     return first.issubset(second) or second.issubset(first)
+
+
+def check_assignment_overlap(first: typing.Set[int], second: typing.Set[int]) -> bool:
+    return len(first & second) > 0
 
 
 def generate_range_set(assignment: str) -> typing.Set[int]:
@@ -27,6 +34,6 @@ def solve() -> Solution:
     puzzle_input = read_lines(filepath=os.path.join(os.path.dirname(__file__), f"{puzzle_name}.txt"))
 
     return Solution(
-        first=count_fully_contained_assignments(puzzle_input=puzzle_input),
-        second=None,
+        first=count_special_assignments(puzzle_input=puzzle_input),
+        second=count_special_assignments(puzzle_input=puzzle_input, count_type="overlap"),
     )
