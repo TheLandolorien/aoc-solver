@@ -64,13 +64,8 @@ Use the following steps to ensure the solver can automatically identify which so
    Example:
 
    ```python
-   import os
-
-
-   <puzzle_name> = importlib.import_module("aoc_solver.YYYY.<puzzle_name>") # Have to use importlib due to numeric submodule name
-
-   def test_foo(mock_puzzle_input):
-       assert <puzzle_name>.foo(puzzle_input=puzzle_input) == "bar"
+   def test_foo(puzzle_module, mock_puzzle_input):
+       assert puzzle_module.foo(puzzle_input=mock_puzzle_input) == "bar"
    ```
 
 1. Add a `solve()` method that reads the corresponding puzzle input and returns a `Solution` named tuple for the solutions for 1st and 2nd parts of the puzzle. Also add the main method used for solving the puzzle that accepts the puzzle input and returns the example answer.
