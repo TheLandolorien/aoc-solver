@@ -10,13 +10,13 @@ PUZZLE_NAME = os.path.splitext(os.path.basename(__file__))[0]
 def calculate_total_common_item_priorities(puzzle_input: typing.List[str], group_size: int = 1) -> int:
     if group_size > 1:
         elf_groups = []
-        for i in range(len(puzzle_input)):  # Depends on trailing newline
+        for i in range(len(puzzle_input)):
             if i % group_size == 0:
                 elf_groups.append([])
-            elf_groups[-1].append(puzzle_input[i].strip())
+            elf_groups[-1].append(puzzle_input[i])
         return sum([determine_priority(find_common_item_type(rucksacks)) for rucksacks in elf_groups])
     else:
-        return sum([determine_priority(find_common_item_type([rucksack_contents.strip()])) for rucksack_contents in puzzle_input])
+        return sum([determine_priority(find_common_item_type([rucksack_contents])) for rucksack_contents in puzzle_input])
 
 
 def find_common_item_type(rucksacks: typing.List[str]) -> str:

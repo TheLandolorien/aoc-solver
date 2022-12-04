@@ -48,7 +48,7 @@ def determine_play(counter: str, outcome: str) -> str:
 
 
 def score_matches(puzzle_input: typing.List[str], by_plays: bool = True) -> int:
-    matches = [play.split(" ") for play in "".join(puzzle_input).strip().split("\n")]
+    matches = [play.split(" ") for play in puzzle_input]
     calculation_func = calculate_score_by_plays if by_plays else calculate_score_by_outcomes
 
     return sum([calculation_func(*match) for match in matches])

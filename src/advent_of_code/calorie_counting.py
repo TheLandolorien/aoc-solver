@@ -8,7 +8,7 @@ PUZZLE_NAME = os.path.splitext(os.path.basename(__file__))[0]
 
 
 def find_max_carried_calories(puzzle_input: typing.List[str], top: int = 1) -> int:
-    calories_carried_by_each_elf = [sum(map(int, calorie_counts.split("\n"))) for calorie_counts in "".join(puzzle_input).strip().split("\n\n")]
+    calories_carried_by_each_elf = [sum(map(int, calorie_counts.split(","))) for calorie_counts in ",".join(puzzle_input).split(",,")]
 
     total_max_calories_carried = 0
     for _ in range(top):
