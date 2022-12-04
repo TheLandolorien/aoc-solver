@@ -7,17 +7,34 @@ from advent_of_code.utilities import read_lines
 PUZZLE_NAME = os.path.splitext(os.path.basename(__file__))[0]
 
 
-def calculate_total_common_item_priorities(puzzle_input: typing.List[str]) -> int:
-    return sum([determine_priority(find_common_item_type(rucksack_contents.strip())) for rucksack_contents in puzzle_input])
+def calculate_total_common_item_priorities(puzzle_input: typing.List[str], group_size: int = 1) -> int:
+    if group_size > 1:
+        elf_groups = []
+        for i in range(len(puzzle_input)):  # Depends on trailing newline
+            if i % group_size == 0:
+                elf_groups.append([])
+            elf_groups[-1].append(puzzle_input[i].strip())
+        return sum([determine_priority(find_common_item_type(rucksacks)) for rucksacks in elf_groups])
+    else:
+        return sum([determine_priority(find_common_item_type([rucksack_contents.strip()])) for rucksack_contents in puzzle_input])
 
 
-def find_common_item_type(rucksack_contents: str) -> str:
+def find_common_item_type(rucksacks: typing.List[str]) -> str:
     # Assumption: Content lengths are even
     # Source: "A given rucksack always has the same number of items in each of its two compartments..."
-    first = rucksack_contents[: (midpoint_idx := len(rucksack_contents) // 2)]
-    second = rucksack_contents[midpoint_idx:]
+    if len(rucksacks) == 1:
+        midpoint_idx = len(items := rucksacks[0]) // 2
+        return determine_intersection(items[:midpoint_idx], items[midpoint_idx:])
+    else:
+        return determine_intersection(*rucksacks)
 
-    return (set(first) & set(second)).pop()
+
+def determine_intersection(*args) -> str:
+    intersection = set(args[0])
+    for items in args[1:]:
+        intersection = intersection & set(items)
+
+    return intersection.pop()
 
 
 def determine_priority(item_type: str) -> str:
@@ -32,4 +49,7 @@ def determine_priority(item_type: str) -> str:
 
 def solve() -> types.Solution:
     puzzle_input = read_lines(filepath=os.path.join(os.path.dirname(__file__), f"{PUZZLE_NAME}.txt"))
-    return types.Solution(first=calculate_total_common_item_priorities(puzzle_input=puzzle_input), second=None)
+    return types.Solution(
+        first=calculate_total_common_item_priorities(puzzle_input=puzzle_input),
+        second=calculate_total_common_item_priorities(puzzle_input=puzzle_input, group_size=3),
+    )
