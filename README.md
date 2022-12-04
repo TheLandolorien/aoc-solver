@@ -64,21 +64,12 @@ Use the following steps to ensure the solver can automatically identify which so
    Example:
 
    ```python
-   import importlib
    import os
-   import typing
-   import pytest
 
-   from aoc_solver.utilities import read_lines
 
    <puzzle_name> = importlib.import_module("aoc_solver.YYYY.<puzzle_name>") # Have to use importlib due to numeric submodule name
 
-   @pytest.fixture(scope="module")
-   def puzzle_input() -> typing.List[str]:
-       puzzle_name = os.path.splitext(os.path.basename(__file__))[0]
-       return read_lines(filepath=os.path.join(os.path.dirname(__file__), f"{puzzle_name}.txt"))
-
-   def test_foo(puzzle_input):
+   def test_foo(mock_puzzle_input):
        assert <puzzle_name>.foo(puzzle_input=puzzle_input) == "bar"
    ```
 

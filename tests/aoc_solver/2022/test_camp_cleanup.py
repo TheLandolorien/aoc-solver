@@ -1,17 +1,7 @@
 import importlib
-import os
-import typing
-import pytest
 
-from aoc_solver.utilities import read_lines
 
 camp_cleanup = importlib.import_module("aoc_solver.2022.camp_cleanup")
-
-
-@pytest.fixture(scope="module")
-def puzzle_input() -> typing.List[str]:
-    puzzle_name = os.path.splitext(os.path.basename(__file__))[0]
-    return read_lines(filepath=os.path.join(os.path.dirname(__file__), f"{puzzle_name}.txt"))
 
 
 def test_check_assignment_containment():
@@ -34,6 +24,6 @@ def test_generate_range_set():
     assert camp_cleanup.generate_range_set(assignment="7-7") == set([7]), "should collapse single item range"
 
 
-def test_count_special_assignments(puzzle_input):
-    assert camp_cleanup.count_special_assignments(puzzle_input=puzzle_input) == 2
-    assert camp_cleanup.count_special_assignments(puzzle_input=puzzle_input, count_type="overlap") == 4
+def test_count_special_assignments(mock_puzzle_input):
+    assert camp_cleanup.count_special_assignments(puzzle_input=mock_puzzle_input) == 2
+    assert camp_cleanup.count_special_assignments(puzzle_input=mock_puzzle_input, count_type="overlap") == 4
