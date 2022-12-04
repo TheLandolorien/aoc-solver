@@ -1,10 +1,11 @@
+import importlib
 import os
 import typing
 import pytest
 
 from advent_of_code.utilities import read_lines
 
-from advent_of_code import calorie_counting
+calorie_counting = importlib.import_module("advent_of_code.2022.calorie_counting")
 
 TEST_PUZZLE_NAME = os.path.splitext(os.path.basename(__file__))[0]
 
