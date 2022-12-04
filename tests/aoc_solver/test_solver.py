@@ -1,11 +1,11 @@
 from unittest.mock import patch
 import pytest
 
-from advent_of_code import solver
+from aoc_solver import solver
 
 
 @patch("sys.argv", ["solve"])
-def test_solve_raises_when_missing_all_arguments() -> None:
+def test_solve_raises_when_missing_all_arguments():
     with pytest.raises(ValueError) as err:
         solver.solve()
 
@@ -13,7 +13,7 @@ def test_solve_raises_when_missing_all_arguments() -> None:
 
 
 @patch("sys.argv", ["solve", "2020"])
-def test_solve_raises_when_missing_puzzle_name() -> None:
+def test_solve_raises_when_missing_puzzle_name():
     with pytest.raises(ValueError) as err:
         solver.solve()
 
@@ -21,7 +21,7 @@ def test_solve_raises_when_missing_puzzle_name() -> None:
 
 
 @patch("sys.argv", ["solve", "ABCD", "foo"])
-def test_solve_raises_for_invalid_year() -> None:
+def test_solve_raises_for_invalid_year():
     with pytest.raises(ValueError) as err:
         solver.solve()
 
@@ -30,8 +30,8 @@ def test_solve_raises_for_invalid_year() -> None:
 
 @patch("sys.argv", ["solve", "2015", "foo"])
 @patch("importlib.import_module")
-def test_solve_runs_solution_for_puzzle(mock_import_module) -> None:
+def test_solve_runs_solution_for_puzzle(mock_import_module):
     solver.solve()
 
-    mock_import_module.assert_called_once_with(name="advent_of_code.2015.foo"), "should load puzzle by name"
+    mock_import_module.assert_called_once_with(name="aoc_solver.2015.foo"), "should load puzzle by name"
     mock_import_module.return_value.solve.assert_called_once(), "should call solve on puzzle module"

@@ -3,16 +3,15 @@ import os
 import typing
 import pytest
 
-from advent_of_code.utilities import read_lines
+from aoc_solver.utilities import read_lines
 
-rucksack_reorganization = importlib.import_module("advent_of_code.2022.rucksack_reorganization")
-
-TEST_PUZZLE_NAME = os.path.splitext(os.path.basename(__file__))[0]
+rucksack_reorganization = importlib.import_module("aoc_solver.2022.rucksack_reorganization")
 
 
 @pytest.fixture(scope="module")
 def puzzle_input() -> typing.List[str]:
-    return read_lines(filepath=os.path.join(os.path.dirname(__file__), f"{TEST_PUZZLE_NAME}.txt"))
+    puzzle_name = os.path.splitext(os.path.basename(__file__))[0]
+    return read_lines(filepath=os.path.join(os.path.dirname(__file__), f"{puzzle_name}.txt"))
 
 
 def test_find_common_item_type(puzzle_input):

@@ -1,10 +1,10 @@
 import os
 import typing
-from advent_of_code import types
 
-from advent_of_code.utilities import read_lines
+from aoc_solver.utilities import Solution, read_lines
 
-PUZZLE_NAME = os.path.splitext(os.path.basename(__file__))[0]
+# --- Day 2: Rock Paper Scissors ---
+# Source: https://adventofcode.com/2022/day/2
 
 SHAPE_SCORES = {"rock": 1, "paper": 2, "scissors": 3}
 OUTCOME_SCORES = {"lose": 0, "draw": 3, "win": 6}
@@ -54,6 +54,10 @@ def score_matches(puzzle_input: typing.List[str], by_plays: bool = True) -> int:
     return sum([calculation_func(*match) for match in matches])
 
 
-def solve() -> types.Solution:
-    puzzle_input = read_lines(filepath=os.path.join(os.path.dirname(__file__), f"{PUZZLE_NAME}.txt"))
-    return types.Solution(first=score_matches(puzzle_input=puzzle_input), second=score_matches(puzzle_input=puzzle_input, by_plays=False))
+def solve() -> Solution:
+    puzzle_name = os.path.splitext(os.path.basename(__file__))[0]
+    puzzle_input = read_lines(filepath=os.path.join(os.path.dirname(__file__), f"{puzzle_name}.txt"))
+    return Solution(
+        first=score_matches(puzzle_input=puzzle_input),
+        second=score_matches(puzzle_input=puzzle_input, by_plays=False),
+    )

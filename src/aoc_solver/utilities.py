@@ -1,4 +1,7 @@
+from collections import namedtuple
 import typing
+
+Solution = namedtuple("Solution", ["first", "second"])
 
 
 def read_lines(filepath: str) -> typing.List[str]:

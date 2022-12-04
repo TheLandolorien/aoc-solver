@@ -1,10 +1,10 @@
 import os
 import typing
 
-from advent_of_code import types
-from advent_of_code.utilities import read_lines
+from aoc_solver.utilities import Solution, read_lines
 
-PUZZLE_NAME = os.path.splitext(os.path.basename(__file__))[0]
+# --- Day 1: Calorie Counting ---
+# Source: https://adventofcode.com/2022/day/1
 
 
 def find_max_carried_calories(puzzle_input: typing.List[str], top: int = 1) -> int:
@@ -18,10 +18,11 @@ def find_max_carried_calories(puzzle_input: typing.List[str], top: int = 1) -> i
     return total_max_calories_carried
 
 
-def solve() -> types.Solution:
-    puzzle_input = read_lines(filepath=os.path.join(os.path.dirname(__file__), f"{PUZZLE_NAME}.txt"))
+def solve() -> Solution:
+    puzzle_name = os.path.splitext(os.path.basename(__file__))[0]
+    puzzle_input = read_lines(filepath=os.path.join(os.path.dirname(__file__), f"{puzzle_name}.txt"))
 
-    return types.Solution(
+    return Solution(
         first=find_max_carried_calories(puzzle_input=puzzle_input),
         second=find_max_carried_calories(puzzle_input=puzzle_input, top=3),
     )

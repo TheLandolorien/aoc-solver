@@ -2,14 +2,13 @@ from datetime import datetime
 import importlib
 import sys
 
+from aoc_solver.utilities import Solution
 
-def solve() -> None:
+
+def solve() -> Solution:
     raise_for_invalid_arguments()
 
-    puzzle_solution = importlib.import_module(name=f"advent_of_code.{sys.argv[1]}.{sys.argv[2]}").solve()
-
-    print(f"Part 1 - {puzzle_solution.first}")
-    print(f"Part 2 - {puzzle_solution.second}")
+    return importlib.import_module(name=f"aoc_solver.{sys.argv[1]}.{sys.argv[2]}").solve()
 
 
 def raise_for_invalid_arguments() -> None:

@@ -1,10 +1,10 @@
 import os
 import typing
-from advent_of_code import types
 
-from advent_of_code.utilities import read_lines
+from aoc_solver.utilities import Solution, read_lines
 
-PUZZLE_NAME = os.path.splitext(os.path.basename(__file__))[0]
+# --- Day 3: Rucksack Reorganization ---
+# Source: https://adventofcode.com/2022/day/3
 
 
 def calculate_total_common_item_priorities(puzzle_input: typing.List[str], group_size: int = 1) -> int:
@@ -47,9 +47,10 @@ def determine_priority(item_type: str) -> str:
     return ord(item_type) + offset - ord(base_chr) + 1
 
 
-def solve() -> types.Solution:
-    puzzle_input = read_lines(filepath=os.path.join(os.path.dirname(__file__), f"{PUZZLE_NAME}.txt"))
-    return types.Solution(
+def solve() -> Solution:
+    puzzle_name = os.path.splitext(os.path.basename(__file__))[0]
+    puzzle_input = read_lines(filepath=os.path.join(os.path.dirname(__file__), f"{puzzle_name}.txt"))
+    return Solution(
         first=calculate_total_common_item_priorities(puzzle_input=puzzle_input),
         second=calculate_total_common_item_priorities(puzzle_input=puzzle_input, group_size=3),
     )
