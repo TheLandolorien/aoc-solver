@@ -47,11 +47,10 @@ def determine_play(counter: str, outcome: str) -> str:
     return counter
 
 
-def score_matches(puzzle_input: typing.List[str], by_plays: bool = True) -> int:
-    matches = [play.split(" ") for play in puzzle_input]
-    calculation_func = calculate_score_by_plays if by_plays else calculate_score_by_outcomes
+def score_matches(puzzle_input: typing.List[str], score_type: str = "play") -> int:
+    calculation_func = calculate_score_by_plays if score_type == "play" else calculate_score_by_outcomes
 
-    return sum([calculation_func(*match) for match in matches])
+    return sum([calculation_func(*match.split(" ")) for match in puzzle_input])
 
 
 def solve() -> Solution:
@@ -59,5 +58,5 @@ def solve() -> Solution:
     puzzle_input = read_lines(filepath=os.path.join(os.path.dirname(__file__), f"{puzzle_name}.txt"))
     return Solution(
         first=score_matches(puzzle_input=puzzle_input),
-        second=score_matches(puzzle_input=puzzle_input, by_plays=False),
+        second=score_matches(puzzle_input=puzzle_input, score_type="outcome"),
     )

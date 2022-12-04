@@ -19,4 +19,4 @@ def test_score_matches_predicts_score_with_suggested_plays(puzzle_input):
 
 
 def test_score_matches_predicts_score_with_suggested_outcomes(puzzle_input):
-    assert rock_paper_scissors.score_matches(puzzle_input=puzzle_input, by_plays=False) == 12
+    assert rock_paper_scissors.score_matches(puzzle_input=puzzle_input, score_type="outcome") == 12
