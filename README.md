@@ -28,7 +28,7 @@ aoc-solver 2022 calorie_counting
 
 The format is `aoc-solver <YYYY> <puzzle_name>` where `<puzzle_name>` is the snake_case of the puzzle title.
 
-And ta-da! You're ready to solve to jump back in! 🎉
+And ta-da! You're ready to jump back in! 🎉
 
 ## 🗂️ Project Organization
 
@@ -66,7 +66,7 @@ Use the following steps to ensure the solver can automatically identify which so
    ```python
    from aoc_solver.utilities import Solution
 
-   def test_foo(puzzle_module, mock_puzzle_input):
+   def test_solve_calculates_puzzle_answers(puzzle_module, mock_puzzle_input):
        assert puzzle_module.solve(puzzle_input=mock_puzzle_input) == Solution(first="bar", second=None)
    ```
 
