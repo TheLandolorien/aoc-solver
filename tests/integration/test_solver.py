@@ -22,4 +22,4 @@ def test_solver_with_2022_day_4_puzzle():
 def test_solver_with_2022_day_5_puzzle():
     solution = solver.solve()
 
-    assert solution == Solution(first="VWLCWGSDQ", second=None)
+    assert solution == Solution(first="VWLCWGSDQ", second="TCGLQSLPW")

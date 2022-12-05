@@ -5,7 +5,7 @@ from aoc_solver.utilities import Solution
 
 
 def test_solve_calculates_puzzle_answers(puzzle_module, mock_puzzle_input):
-    assert puzzle_module.solve(puzzle_input=mock_puzzle_input) == Solution(first="CMZ", second=None)
+    assert puzzle_module.solve(puzzle_input=mock_puzzle_input) == Solution(first="CMZ", second="MCD")
 
 
 @pytest.mark.parametrize(
@@ -60,5 +60,24 @@ def test_flatten_stacks(stacks, flattened_stacks, puzzle_module):
         ),
     ],
 )
-def test_move_crates(flattened_stacks, step, new_arrangement, puzzle_module):
+def test_move_crates_in_reverse_by_default(flattened_stacks, step, new_arrangement, puzzle_module):
     assert puzzle_module.move_crates(flattened_stacks=flattened_stacks, step=step) == new_arrangement
+
+
+@pytest.mark.parametrize(
+    "flattened_stacks,step,new_arrangement",
+    [
+        (
+            [["L"], ["C", "B", "X"], ["E", "O"]],
+            "move 2 from 3 to 1",
+            [["L", "E", "O"], ["C", "B", "X"], []],
+        ),
+        (
+            [["L", "E", "O"], ["C", "B", "X"], []],
+            "move 3 from 1 to 3",
+            [[], ["C", "B", "X"], ["L", "E", "O"]],
+        ),
+    ],
+)
+def test_move_crates_in_order(flattened_stacks, step, new_arrangement, puzzle_module):
+    assert puzzle_module.move_crates(flattened_stacks=flattened_stacks, step=step, in_order=True) == new_arrangement

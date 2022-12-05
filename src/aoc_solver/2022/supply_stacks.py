@@ -8,14 +8,6 @@ from aoc_solver.utilities import Solution
 # Source: https://adventofcode.com/2022/day/5
 
 
-def get_top_crates(stacks: typing.List[typing.List[str]], rearrangement_procedure: typing.List[str]) -> str:
-    flattened_stacks = flatten_stacks(stacks=stacks)
-    for step in rearrangement_procedure:
-        move_crates(flattened_stacks=flattened_stacks, step=step)
-
-    return "".join([stack[-1] for stack in flattened_stacks])
-
-
 def flatten_stacks(stacks: typing.List[str]) -> typing.List[typing.List[str]]:
     num_stacks = len(stacks.pop().split())
     flattened_stacks = [[] for _ in range(num_stacks)]  # Avoids [[]] * num_stacks due to reference issue
@@ -29,20 +21,35 @@ def flatten_stacks(stacks: typing.List[str]) -> typing.List[typing.List[str]]:
     return flattened_stacks
 
 
-def move_crates(flattened_stacks: typing.List[typing.List[str]], step: str) -> typing.List[typing.List[str]]:
+def get_top_crates(stacks: typing.List[typing.List[str]], rearrangement_procedure: typing.List[str], move_in_order: bool = False) -> str:
+    flattened_stacks = flatten_stacks(stacks=stacks)
+    for step in rearrangement_procedure:
+        move_crates(flattened_stacks=flattened_stacks, step=step, in_order=move_in_order)
+
+    return "".join([stack[-1] for stack in flattened_stacks])
+
+
+def move_crates(flattened_stacks: typing.List[typing.List[str]], step: str, in_order: bool = False) -> typing.List[typing.List[str]]:
     num_crates, source_stack, target_stack = [int(item) for item in step.split() if item.isdigit()]
 
+    moved_crates = []
     for _ in range(num_crates):
         crate = flattened_stacks[source_stack - 1].pop()
-        flattened_stacks[target_stack - 1].append(crate)
+        moved_crates.append(crate)
+
+    if in_order:
+        moved_crates.reverse()
+
+    flattened_stacks[target_stack - 1].extend(moved_crates)
 
     return flattened_stacks
 
 
 def solve(puzzle_input=typing.List[str]) -> Solution:
-    split_idx = puzzle_input.index("")
+    stacks = puzzle_input[: (split_idx := puzzle_input.index(""))]
+    steps = puzzle_input[split_idx + 1 :]
 
     return Solution(
-        first=get_top_crates(stacks=puzzle_input[:split_idx], rearrangement_procedure=puzzle_input[split_idx + 1 :]),
-        second=None,
+        first=get_top_crates(stacks=stacks[:], rearrangement_procedure=steps[:]),
+        second=get_top_crates(stacks=stacks[:], rearrangement_procedure=steps[:], move_in_order=True),
     )
