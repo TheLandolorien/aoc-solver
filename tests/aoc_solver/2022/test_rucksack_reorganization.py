@@ -1,3 +1,6 @@
+from aoc_solver.utilities import Solution
+
+
 def test_find_common_item_type(puzzle_module, mock_puzzle_input):
     first_rucksack = mock_puzzle_input[0].strip()
     second_rucksack = mock_puzzle_input[1].strip()
@@ -22,3 +25,7 @@ def test_calculate_total_common_item_priorities_by_rucksack(puzzle_module, mock_
 
 def test_calculate_total_common_item_priorities_by_elf_trio(puzzle_module, mock_puzzle_input):
     assert puzzle_module.calculate_total_common_item_priorities(puzzle_input=mock_puzzle_input, group_size=3) == 70
+
+
+def test_solve_calculates_puzzle_answers(puzzle_module, mock_puzzle_input):
+    assert puzzle_module.solve(puzzle_input=mock_puzzle_input) == Solution(first=157, second=70)

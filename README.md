@@ -49,7 +49,7 @@ src/
 └── ...
 ```
 
-Test modules are in the `tests/` directory (which mirrors the `src/` directory) and they use the `test_` prefix.
+Unit test modules are in the `tests/` directory (which mirrors the `src/` directory) and they use the `test_` prefix. Integration tests are under the `tests/integration/` directory.
 
 ## 🧩 Adding New Puzzle Solutions
 
@@ -64,8 +64,10 @@ Use the following steps to ensure the solver can automatically identify which so
    Example:
 
    ```python
+   from aoc_solver.utilities import Solution
+
    def test_foo(puzzle_module, mock_puzzle_input):
-       assert puzzle_module.foo(puzzle_input=mock_puzzle_input) == "bar"
+       assert puzzle_module.solve(puzzle_input=mock_puzzle_input) == Solution(first="bar", second=None)
    ```
 
 1. Add a `solve()` method that reads the corresponding puzzle input and returns a `Solution` named tuple for the solutions for 1st and 2nd parts of the puzzle. Also add the main method used for solving the puzzle that accepts the puzzle input and returns the example answer.
@@ -73,10 +75,9 @@ Use the following steps to ensure the solver can automatically identify which so
    Example:
 
    ```python
-   import os
    import typing
 
-   from aoc_solver.utilities import Solution, read_lines
+   from aoc_solver.utilities import Solution
 
    # --- Day #: <Puzzle Name> ---
    # Source: https://adventofcode.com/YYYY/day/#
@@ -84,17 +85,31 @@ Use the following steps to ensure the solver can automatically identify which so
    def foo(puzzle_input: typing.List[str]) -> str:
        return "bar"
 
-   def solve() -> Solution:
-       puzzle_name = os.path.splitext(os.path.basename(__file__))[0]
-       puzzle_input = read_lines(filepath=os.path.join(os.path.dirname(__file__), f"{puzzle_name}.txt"))
-
+   def solve(puzzle_input=typing.List[str]) -> Solution:
        return Solution(
-           first=None,
+           first=foo(puzzle_input=puzzle_input),
            second=None,
        )
    ```
 
 Huzzah! Running `aoc-solver` on the new puzzle should print the blank solution for your next puzzle and running `pytest` should pass with the hard-coded example answer! 🙌🏾
+
+## 🧪 Running Tests
+
+[`pytest`](https://docs.pytest.org/en/7.2.x/) is used as a test runner and its configuration can be found in the `tool.pytest.ini_options` section of [pyproject.toml](./pyproject.toml).
+
+Running `pytest` with no arguments will:
+
+- Automatically add `src` to `PYTHONPATH` (pythonpath: `src`)
+- Only run unit tests (testpaths: `tests/aoc_solver`)
+- Increase verbosity (`-vv`)
+- Use the `importlib` for its import mode (`--import-mode=importlib`)
+
+To run integration tests (which just checks how the solver executes random puzzles), use:
+
+```shell
+pytest tests/integration
+```
 
 ## 🪪 License
 

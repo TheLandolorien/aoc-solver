@@ -1,7 +1,6 @@
-import os
 import typing
 
-from aoc_solver.utilities import Solution, read_lines
+from aoc_solver.utilities import Solution
 
 # --- Day 4: Camp Cleanup ---
 # Source: https://adventofcode.com/2022/day/4
@@ -29,10 +28,7 @@ def generate_range_set(assignment: str) -> typing.Set[int]:
     return set(range(start, stop + 1))
 
 
-def solve() -> Solution:
-    puzzle_name = os.path.splitext(os.path.basename(__file__))[0]
-    puzzle_input = read_lines(filepath=os.path.join(os.path.dirname(__file__), f"{puzzle_name}.txt"))
-
+def solve(puzzle_input=typing.List[str]) -> Solution:
     return Solution(
         first=count_special_assignments(puzzle_input=puzzle_input),
         second=count_special_assignments(puzzle_input=puzzle_input, count_type="overlap"),

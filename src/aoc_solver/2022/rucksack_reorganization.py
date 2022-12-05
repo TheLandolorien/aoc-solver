@@ -47,9 +47,7 @@ def determine_priority(item_type: str) -> str:
     return ord(item_type) + offset - ord(base_chr) + 1
 
 
-def solve() -> Solution:
-    puzzle_name = os.path.splitext(os.path.basename(__file__))[0]
-    puzzle_input = read_lines(filepath=os.path.join(os.path.dirname(__file__), f"{puzzle_name}.txt"))
+def solve(puzzle_input=typing.List[str]) -> Solution:
     return Solution(
         first=calculate_total_common_item_priorities(puzzle_input=puzzle_input),
         second=calculate_total_common_item_priorities(puzzle_input=puzzle_input, group_size=3),

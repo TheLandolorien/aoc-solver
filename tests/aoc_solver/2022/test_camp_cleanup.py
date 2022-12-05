@@ -1,3 +1,6 @@
+from aoc_solver.utilities import Solution
+
+
 def test_check_assignment_containment(puzzle_module):
     assert puzzle_module.check_assignment_containment(set([2, 3, 4]), set([6, 7, 8])) == False, "should detect non-containment"
     assert puzzle_module.check_assignment_containment(set([1, 2]), set([1, 2, 3])) == True, "should detect same start containment"
@@ -21,3 +24,7 @@ def test_generate_range_set(puzzle_module):
 def test_count_special_assignments(puzzle_module, mock_puzzle_input):
     assert puzzle_module.count_special_assignments(puzzle_input=mock_puzzle_input) == 2
     assert puzzle_module.count_special_assignments(puzzle_input=mock_puzzle_input, count_type="overlap") == 4
+
+
+def test_solve_calculates_puzzle_answers(puzzle_module, mock_puzzle_input):
+    assert puzzle_module.solve(puzzle_input=mock_puzzle_input) == Solution(first=2, second=4)

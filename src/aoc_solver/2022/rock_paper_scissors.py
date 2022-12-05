@@ -1,7 +1,6 @@
-import os
 import typing
 
-from aoc_solver.utilities import Solution, read_lines
+from aoc_solver.utilities import Solution
 
 # --- Day 2: Rock Paper Scissors ---
 # Source: https://adventofcode.com/2022/day/2
@@ -53,9 +52,7 @@ def score_matches(puzzle_input: typing.List[str], score_type: str = "play") -> i
     return sum([calculation_func(*match.split(" ")) for match in puzzle_input])
 
 
-def solve() -> Solution:
-    puzzle_name = os.path.splitext(os.path.basename(__file__))[0]
-    puzzle_input = read_lines(filepath=os.path.join(os.path.dirname(__file__), f"{puzzle_name}.txt"))
+def solve(puzzle_input=typing.List[str]) -> Solution:
     return Solution(
         first=score_matches(puzzle_input=puzzle_input),
         second=score_matches(puzzle_input=puzzle_input, score_type="outcome"),
