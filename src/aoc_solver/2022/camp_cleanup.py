@@ -1,3 +1,4 @@
+from types import FunctionType
 import typing
 
 from aoc_solver.utilities import Solution
@@ -6,20 +7,11 @@ from aoc_solver.utilities import Solution
 # Source: https://adventofcode.com/2022/day/4
 
 
-def count_special_assignments(puzzle_input: typing.List[str], count_type: str = "contain") -> str:
-    count_method = check_assignment_overlap if count_type == "overlap" else check_assignment_containment
-    return len(list(filter(lambda assignments: count_method(*generate_assignment_ranges(assignments=assignments)), puzzle_input)))
-
-
-def generate_assignment_ranges(assignments: str) -> typing.Tuple[set, set]:
-    return map(lambda assignment: generate_range_set(assignment=assignment), assignments.split(","))
-
-
-def check_assignment_containment(first: typing.Set[int], second: typing.Set[int]) -> bool:
+def is_contained(first: typing.Set[int], second: typing.Set[int]) -> bool:
     return first.issubset(second) or second.issubset(first)
 
 
-def check_assignment_overlap(first: typing.Set[int], second: typing.Set[int]) -> bool:
+def is_intersection(first: typing.Set[int], second: typing.Set[int]) -> bool:
     return len(first & second) > 0
 
 
@@ -28,8 +20,14 @@ def generate_range_set(assignment: str) -> typing.Set[int]:
     return set(range(start, stop + 1))
 
 
+def count_special_assignments(assignment_pairs: typing.List[typing.List[str]], counter: FunctionType = is_contained) -> int:
+    return len([result for assignments in assignment_pairs if (result := counter(*map(generate_range_set, assignments)))])
+
+
 def solve(puzzle_input=typing.List[str]) -> Solution:
+    assignment_pairs = [pair.split(",") for pair in puzzle_input]
+
     return Solution(
-        first=count_special_assignments(puzzle_input=puzzle_input),
-        second=count_special_assignments(puzzle_input=puzzle_input, count_type="overlap"),
+        first=count_special_assignments(assignment_pairs=assignment_pairs[:]),
+        second=count_special_assignments(assignment_pairs=assignment_pairs[:], counter=is_intersection),
     )

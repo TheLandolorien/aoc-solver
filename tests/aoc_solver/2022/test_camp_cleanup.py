@@ -1,29 +1,37 @@
+import pytest
 from aoc_solver.utilities import Solution
 
 
-def test_check_assignment_containment(puzzle_module):
-    assert puzzle_module.check_assignment_containment(set([2, 3, 4]), set([6, 7, 8])) == False, "should detect non-containment"
-    assert puzzle_module.check_assignment_containment(set([1, 2]), set([1, 2, 3])) == True, "should detect same start containment"
-    assert puzzle_module.check_assignment_containment(set([1, 2, 3]), set([2, 3])) == True, "should detect same stop containment"
-    assert puzzle_module.check_assignment_containment(set([5]), set([2, 3, 4, 5, 6])) == True, "should detect single item containment"
+@pytest.mark.parametrize(
+    "scenario,assignment,range",
+    [
+        ("expand small ranges", "2-4", {2, 3, 4}),
+        ("expand large ranges", "0-10", {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10}),
+        ("collapse single item ranges", "7-7", {7}),
+    ],
+)
+def test_generate_range_set(scenario, assignment, range, puzzle_module):
+    assert puzzle_module.generate_range_set(assignment=assignment) == range, f"should {scenario}"
 
 
-def test_check_assignment_overlap(puzzle_module):
-    assert puzzle_module.check_assignment_overlap(set([2, 3, 4]), set([6, 7, 8])) == False, "should detect non-overlap"
-    assert puzzle_module.check_assignment_overlap(set([1, 2]), set([1, 2, 3])) == True, "should detect subset over"
-    assert puzzle_module.check_assignment_overlap(set([1, 2, 3]), set([3, 4, 5])) == True, "should single item overlap"
-    assert puzzle_module.check_assignment_overlap(set([5]), set([2, 3, 4, 5, 6])) == True, "should detect single item subset overlap"
-
-
-def test_generate_range_set(puzzle_module):
-    assert puzzle_module.generate_range_set(assignment="2-4") == set([2, 3, 4]), "should expand small range"
-    assert puzzle_module.generate_range_set(assignment="0-10") == set([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]), "should expand larger range"
-    assert puzzle_module.generate_range_set(assignment="7-7") == set([7]), "should collapse single item range"
-
-
-def test_count_special_assignments(puzzle_module, mock_puzzle_input):
-    assert puzzle_module.count_special_assignments(puzzle_input=mock_puzzle_input) == 2
-    assert puzzle_module.count_special_assignments(puzzle_input=mock_puzzle_input, count_type="overlap") == 4
+@pytest.mark.parametrize(
+    "scenario,assignment_pairs,counter_name,total",
+    [
+        ("detect non-containment", [["2-4", "6-8"]], "is_contained", 0),
+        ("detect same start containment", [["1-2", "1-3"]], "is_contained", 1),
+        ("detect same stop containment", [["1-3", "2-3"]], "is_contained", 1),
+        ("detect single item containment", [["5-5", "2-6"]], "is_contained", 1),
+        ("detect multiple containments", [["2-3", "1-6"], ["1-2", "3-4"], ["1-6", "1-5"], ["3-4", "2-7"]], "is_contained", 3),
+        ("detect no overlap", [["2-4", "6-8"]], "is_intersection", 0),
+        ("detect subset overlap", [["1-2", "1-3"]], "is_intersection", 1),
+        ("detect single item overlap", [["1-3", "3-5"]], "is_intersection", 1),
+        ("detect single item subset overlap", [["5-5", "2-6"]], "is_intersection", 1),
+        ("detect multiple overlaps", [["2-7", "1-6"], ["1-2", "3-4"], ["1-5", "1-6"], ["1-4", "2-7"]], "is_intersection", 3),
+    ],
+)
+def test_count_special_assignments(scenario, assignment_pairs, counter_name, total, puzzle_module):
+    counter = getattr(puzzle_module, counter_name)
+    assert puzzle_module.count_special_assignments(assignment_pairs=assignment_pairs, counter=counter) == total, f"should {scenario}"
 
 
 def test_solve_calculates_puzzle_answers(puzzle_module, mock_puzzle_input):
