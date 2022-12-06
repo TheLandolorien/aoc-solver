@@ -1,3 +1,4 @@
+from types import FunctionType
 import typing
 
 from aoc_solver.utilities import Solution
@@ -46,14 +47,14 @@ def determine_play(counter: str, outcome: str) -> str:
     return counter
 
 
-def score_matches(puzzle_input: typing.List[str], score_type: str = "play") -> int:
-    calculation_func = calculate_score_by_plays if score_type == "play" else calculate_score_by_outcomes
-
-    return sum([calculation_func(*match.split(" ")) for match in puzzle_input])
+def score_matches(matches: typing.List[typing.List[str]], calculator: FunctionType) -> int:
+    return sum([calculator(*match) for match in matches])
 
 
 def solve(puzzle_input=typing.List[str]) -> Solution:
+    matches = [match.split(" ") for match in puzzle_input]
+
     return Solution(
-        first=score_matches(puzzle_input=puzzle_input),
-        second=score_matches(puzzle_input=puzzle_input, score_type="outcome"),
+        first=score_matches(matches=matches, calculator=calculate_score_by_plays),
+        second=score_matches(matches=matches, calculator=calculate_score_by_outcomes),
     )
