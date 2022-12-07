@@ -1,32 +1,19 @@
-import os
 import typing
 
-from aoc_solver.utilities import Solution, read_lines
+from aoc_solver.utilities import Solution
 
 # --- Day 3: Rucksack Reorganization ---
 # Source: https://adventofcode.com/2022/day/3
 
 
-def calculate_total_common_item_priorities(puzzle_input: typing.List[str], group_size: int = 1) -> int:
-    if group_size > 1:
-        elf_groups = []
-        for i in range(len(puzzle_input)):
-            if i % group_size == 0:
-                elf_groups.append([])
-            elf_groups[-1].append(puzzle_input[i])
-        return sum([determine_priority(find_common_item_type(rucksacks)) for rucksacks in elf_groups])
-    else:
-        return sum([determine_priority(find_common_item_type([rucksack_contents])) for rucksack_contents in puzzle_input])
+def calculate_total_common_item_priorities(rucksacks: typing.List[str], group_size: int = 1) -> int:
+    rucksack_groups = []
+    for i in range(len(rucksacks)):
+        if i % group_size == 0:
+            rucksack_groups.append([])
+        rucksack_groups[-1].append(rucksacks[i])
 
-
-def find_common_item_type(rucksacks: typing.List[str]) -> str:
-    # Assumption: Content lengths are even
-    # Source: "A given rucksack always has the same number of items in each of its two compartments..."
-    if len(rucksacks) == 1:
-        midpoint_idx = len(items := rucksacks[0]) // 2
-        return determine_intersection(items[:midpoint_idx], items[midpoint_idx:])
-    else:
-        return determine_intersection(*rucksacks)
+    return sum([determine_priority(find_common_item_type(rucksacks)) for rucksacks in rucksack_groups])
 
 
 def determine_intersection(*args) -> str:
@@ -47,8 +34,18 @@ def determine_priority(item_type: str) -> str:
     return ord(item_type) + offset - ord(base_chr) + 1
 
 
+def find_common_item_type(rucksacks: typing.List[str]) -> str:
+    # Assumption: Content lengths are even
+    # Source: "A given rucksack always has the same number of items in each of its two compartments..."
+    if len(rucksacks) == 1:
+        midpoint_idx = len(items := rucksacks[0]) // 2
+        return determine_intersection(items[:midpoint_idx], items[midpoint_idx:])
+    else:
+        return determine_intersection(*rucksacks)
+
+
 def solve(puzzle_input=typing.List[str]) -> Solution:
     return Solution(
-        first=calculate_total_common_item_priorities(puzzle_input=puzzle_input),
-        second=calculate_total_common_item_priorities(puzzle_input=puzzle_input, group_size=3),
+        first=calculate_total_common_item_priorities(rucksacks=puzzle_input[:]),
+        second=calculate_total_common_item_priorities(rucksacks=puzzle_input[:], group_size=3),
     )

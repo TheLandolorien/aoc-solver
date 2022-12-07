@@ -1,30 +1,29 @@
+import pytest
 from aoc_solver.utilities import Solution
 
 
-def test_find_common_item_type(puzzle_module, mock_puzzle_input):
-    first_rucksack = mock_puzzle_input[0].strip()
-    second_rucksack = mock_puzzle_input[1].strip()
-    third_rucksack = mock_puzzle_input[2].strip()
-
-    assert puzzle_module.find_common_item_type(rucksacks=[first_rucksack]) == "p", "should find common lowercase items"
-    assert puzzle_module.find_common_item_type(rucksacks=[second_rucksack]) == "L", "should find common uppercase items"
-    assert (
-        puzzle_module.find_common_item_type(rucksacks=[first_rucksack, second_rucksack, third_rucksack]) == "r"
-    ), "should find common uppercase items in group"
-
-
-def test_determine_priority(puzzle_module):
-    assert puzzle_module.determine_priority("p") == 16, "should determine priority for lowercase items"
-    assert puzzle_module.determine_priority("L") == 38, "should determine priority for uppercase items"
-    assert puzzle_module.determine_priority("P") == 42, "should have case-sensitive priorities "
+@pytest.mark.parametrize(
+    "scenario,letter,priority",
+    [
+        ("determine priority for lowercase items", "p", 16),
+        ("determine priority for uppercase items", "L", 38),
+        ("have case-sensitive priorities", "P", 42),
+    ],
+)
+def test_determine_priority(scenario, letter, priority, puzzle_module):
+    assert puzzle_module.determine_priority(item_type=letter) == priority, f"should {scenario}"
 
 
-def test_calculate_total_common_item_priorities_by_rucksack(puzzle_module, mock_puzzle_input):
-    assert puzzle_module.calculate_total_common_item_priorities(puzzle_input=mock_puzzle_input) == 157
-
-
-def test_calculate_total_common_item_priorities_by_elf_trio(puzzle_module, mock_puzzle_input):
-    assert puzzle_module.calculate_total_common_item_priorities(puzzle_input=mock_puzzle_input, group_size=3) == 70
+@pytest.mark.parametrize(
+    "scenario,rucksacks,group_size,total",
+    [
+        ("calculate groups of 1", ["aBcB", "dBde", "fBfg", "hghI", "IjKj", "lIlm"], 1, 68),
+        ("calculate groups of 2", ["aBcB", "dBde", "fBfg", "hghI", "IjKj", "lIlm"], 2, 70),
+        ("calculate groups of 3", ["aBcB", "dBde", "fBfg", "hghI", "IjKj", "lIlm"], 3, 63),
+    ],
+)
+def test_calculate_total_common_item_priorities(scenario, rucksacks, group_size, total, puzzle_module):
+    assert puzzle_module.calculate_total_common_item_priorities(rucksacks=rucksacks, group_size=group_size) == total, f"should {scenario}"
 
 
 def test_solve_calculates_puzzle_answers(puzzle_module, mock_puzzle_input):
