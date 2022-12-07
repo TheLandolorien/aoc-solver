@@ -25,29 +25,27 @@ If not, well... have fun figuring out those new management tools and updating th
 If you want to run a solution from a previous puzzle (say [Day 1: Calorie Counting from 2022](https://adventofcode.com/2022/day/1)), try:
 
 ```shell
-aoc-solver 2022 calorie_counting
+aoc-solver 2022 1
 ```
-
-The format is `aoc-solver <YYYY> <puzzle_name>` where `<puzzle_name>` is the snake_case of the puzzle title.
 
 And ta-da! You're ready to jump back in! 🎉
 
 ## 🗂️ Project Organization
 
-Puzzles solutions are grouped by year and modules are named after the title of the puzzle. Puzzle inputs are saved with the same name as the module/puzzle and given a `.txt` extension.
+Puzzles solutions are grouped by year and modules are named after the day the puzzle was released (format: `day_##.py`). Puzzle inputs are saved with the same name as the module/puzzle and given a `.txt` extension.
 
 ```
 src/
 ├── 2022/
-│   ├── calorie_counting.py
-│   ├── calorie_counting.txt
+│   ├── day_01.py
+│   ├── day_01.txt
 │   ├── ...
-│   ├── <puzzle_name_n>.py
-│   └── <puzzle_name_n>.txt
+│   ├── day_##.py
+│   └── day_##.txt
 ├── YYYY/
 │   ├── ...
-│   ├── <puzzle_name_n>.py
-│   └── <puzzle_name_n>.txt
+│   ├── day_##.py
+│   └── day_##.txt
 └── ...
 ```
 
@@ -57,8 +55,8 @@ As for tests, unit tests are in the `tests/aoc_solver/` directory (which mirrors
 
 Here's your runbook for setting up a new puzzle. It ensures the solver and pytest fixtures can automatically identify which solution to execute with the proper puzzle input (hopefully this will be automated sometime soon 🚀).
 
-1. Create a `test_<puzzle_name>.py` test module in the appropriate `tests/aoc_solver/YYYY` directory.
-1. Copy the example puzzle input to the corresponding `test_<puzzle_name>.txt` file in the same test directory.
+1. Create a `test_day_##.py` test module in the appropriate `tests/aoc_solver/YYYY` directory.
+1. Copy the example puzzle input to the corresponding `test_day_##.txt` file in the same test directory.
 1. Go ahead and write a test based on the example solution (you know you're still doing TDD 🧪). Here's a scaffold to start with:
 
    ```python
@@ -68,8 +66,8 @@ Here's your runbook for setting up a new puzzle. It ensures the solver and pytes
        assert puzzle_module.solve(puzzle_input=mock_puzzle_input) == Solution(first=None, second=None)
    ```
 
-1. Create a `<puzzle_name>.py` module in the appropriate `src/aoc_solver/YYYY` directory.
-1. Download the puzzle input to the corresponding `<puzzle_name>.txt` file in the same package directory.
+1. Create a `day_##.py` module in the appropriate `src/aoc_solver/YYYY` directory.
+1. Download the puzzle input to the corresponding `day_##.txt` file in the same package directory.
 1. Add a `solve()` method that reads the corresponding puzzle input and returns a `Solution` named tuple for the solutions for 1st and 2nd parts of the puzzle. Scaffold:
 
    ```python
@@ -115,7 +113,7 @@ You can run integration tests using
 pytest tests/integration
 ```
 
-I just add random final puzzle answers to the integration test [test_solver.py](./tests/integration/test_solver.py) to make sure every thing still runs smoothly across different years.
+The main integration test ([test_solver.py](./tests/integration/test_solver.py)) just makes sure the CLI arguments end up run the correct puzzle solution.
 
 ## 🪪 License
 
