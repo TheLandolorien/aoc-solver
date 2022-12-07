@@ -6,28 +6,23 @@ from unittest.mock import patch
 from aoc_solver import solver
 
 
-@patch("sys.argv", ["solve"])
-def test_solve_raises_when_missing_all_arguments():
+@pytest.mark.parametrize(
+    "scenario,invalid_args,additional_error_message",
+    [
+        ("raise when missing all arguments", ["solve"], ""),
+        ("raise when missing puzzle name", ["solve", "2020"], ""),
+        ("raise when given invalid year", ["solve", "ABCD", "foo"], "\nInvalid Year: ABCD"),
+    ],
+)
+def test_raise_for_invalid_arguments(scenario, invalid_args, additional_error_message):
+    patcher = patch("sys.argv", invalid_args)
+
+    patcher.start()
     with pytest.raises(ValueError) as err:
         solver.solve()
 
-    assert str(err.value) == "Usage: poetry run solve <YYYY> <PUZZLE_NAME>", "should provide ValueError details"
-
-
-@patch("sys.argv", ["solve", "2020"])
-def test_solve_raises_when_missing_puzzle_name():
-    with pytest.raises(ValueError) as err:
-        solver.solve()
-
-    assert str(err.value) == "Usage: poetry run solve <YYYY> <PUZZLE_NAME>", "should provide ValueError details"
-
-
-@patch("sys.argv", ["solve", "ABCD", "foo"])
-def test_solve_raises_for_invalid_year():
-    with pytest.raises(ValueError) as err:
-        solver.solve()
-
-    assert str(err.value) == "Usage: poetry run solve <YYYY> <PUZZLE_NAME>\nInvalid Year: ABCD", "should provide ValueError details"
+    assert str(err.value) == f"Usage: poetry run solve <YYYY> <PUZZLE_NAME>{additional_error_message}", f"should {scenario}"
+    patcher.stop()
 
 
 @patch("sys.argv", ["solve", "2015", "foo"])
