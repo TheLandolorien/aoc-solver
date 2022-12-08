@@ -25,6 +25,7 @@ requests = "^2.28.1"
 [tool.poetry.group.test.dependencies]
 pytest = "^7.2.0"
 coverage = "^6.5.0"
+pytest-cov = "^4.0.0"
 
 [tool.poetry.group.dev.dependencies]
 black = "^22.10.0"
@@ -33,7 +34,7 @@ black = "^22.10.0"
 minversion = "7.2.0"
 pythonpath = "src"
 testpaths = "tests/aoc_solver"
-addopts = "-vv --import-mode=importlib"
+addopts = "-vv --import-mode=importlib --cov=src/aoc_solver --cov-report term-missing:skip-covered --cov-branch"
 
 [tool.poetry.scripts]
 aoc-solver = "aoc_solver.solver:solve"

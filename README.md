@@ -89,7 +89,7 @@ Huzzah! Running `aoc-solver` and `pytest` on the new puzzle should work with the
 
 ## 🧪 Running Tests
 
-[`pytest`](https://docs.pytest.org/en/7.2.x/) is used as a test runner and its configuration can be found in the `tool.pytest.ini_options` section of [pyproject.toml](./pyproject.toml).
+[`pytest`](https://docs.pytest.org/en/7.2.x/) is used as a test runner and its configuration can be found in the `tool.pytest.ini_options` section of [pyproject.toml](./pyproject.toml). [`pytest-cov`](https://pytest-cov.readthedocs.io/en/latest/index.html) is used as a coverage reporter.
 
 Running `pytest` with no arguments will:
 
@@ -97,6 +97,7 @@ Running `pytest` with no arguments will:
 - Only run unit tests (testpaths: `tests/aoc_solver`)
 - Increase verbosity (`-vv`)
 - Use the `importlib` for its import mode (`--import-mode=importlib`)
+- Calculate coverage (using `pytest-cov`) and display any modules missing coverage
 
 ### Unit Tests
 
