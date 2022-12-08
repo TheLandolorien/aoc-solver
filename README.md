@@ -104,6 +104,7 @@ The [conftest.py](./tests/aoc_solver/conftest.py) for the `aoc_solver` package c
 
 - `mock_puzzle_input`: Automatically loads the correct example puzzle input based on the context of the test being run.
 - `puzzle_module`: Automatically imports the module under test based on the context of the test being run (and allows us to have a numeric directory name when importing 😉).
+- `project_directory`: Returns the project root directory to help with path building.
 
 ### Integration Tests
 
