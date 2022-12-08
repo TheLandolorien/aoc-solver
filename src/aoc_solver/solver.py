@@ -1,35 +1,37 @@
-import importlib
-import os
 import sys
+import typing
+
 
 from datetime import datetime, timedelta, timezone
 
-from aoc_solver.utilities import read_lines, Solution
+from aoc_solver.utilities import run_solution
 
 
-def get_usage() -> str:
+def _get_usage() -> str:
     return f"Usage: poetry run {sys.argv[0]} <YEAR> <DAY_NUMBER>"
 
 
-def raise_for_invalid_dates(arg_name: str, arg_idx: int, date_format: str) -> None:
-    arg = sys.argv[arg_idx]
+def _raise_for_invalid_dates(value: str, date_format: str) -> None:
     try:
-        datetime.strptime(arg, date_format)
+        datetime.strptime(value, date_format)
     except ValueError as err:
-        raise ValueError(f"{get_usage()}\nInvalid {arg_name}: {arg}") from err
+        raise ValueError(f"{_get_usage()}\nInvalid value {value} for format {date_format}") from err
 
 
-def raise_for_incorrect_number_of_args() -> None:
+def _raise_for_incorrect_number_of_args() -> None:
     if len(sys.argv) != 1 and len(sys.argv) != 3:
-        raise ValueError(get_usage())
+        raise ValueError(_get_usage())
 
 
-def get_puzzle_path():
-    src_path, package_name = os.path.split(os.path.dirname(__file__))
-    _, *args = sys.argv
+def validate_arguments() -> typing.Tuple[int, int]:
+    _raise_for_incorrect_number_of_args()
 
-    if args:
-        year, day = args
+    if len(sys.argv) == 3:
+        year = sys.argv[1]
+        day = sys.argv[2]
+
+        _raise_for_invalid_dates(value=year, date_format="%Y")
+        _raise_for_invalid_dates(value=day, date_format="%d")
     else:
         now = datetime.now(timezone(timedelta(hours=-5)))
 
@@ -42,22 +44,10 @@ def get_puzzle_path():
         if now.day > 25:
             day = 25
 
-    return (src_path, package_name, str(year), str(day).zfill(2))
+    return (int(year), int(day))
 
 
-def raise_for_invalid_arguments() -> None:
-    raise_for_incorrect_number_of_args()
+def solve() -> typing.Any:
+    year, day = validate_arguments()
 
-    if len(sys.argv) == 3:
-        raise_for_invalid_dates("Year", 1, "%Y")
-        raise_for_invalid_dates("Day", 2, "%d")
-
-
-def solve() -> Solution:
-    raise_for_invalid_arguments()
-
-    src_path, package_name, year, day = get_puzzle_path()
-    puzzle_module = importlib.import_module(name=".".join([package_name, year, f"day_{day}"]))
-    puzzle_input_path = os.path.join(src_path, package_name, year, f"day_{day}.txt")
-
-    return puzzle_module.solve(puzzle_input=read_lines(filepath=puzzle_input_path))
+    return run_solution(year=year, day=day)
