@@ -1,0 +1,12 @@
+import typing
+
+from aoc_solver.utilities import Solution
+
+# $title
+# Source: https://adventofcode.com/$year/day/$day
+
+def solve(puzzle_input=typing.List[str]) -> Solution:
+    return Solution(
+        first=None,
+        second=None,
+    )
