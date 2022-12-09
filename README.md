@@ -53,37 +53,16 @@ As for tests, unit tests are in the `tests/aoc_solver/` directory (which mirrors
 
 ## 🧩 Adding New Puzzle Solutions
 
-Here's your runbook for setting up a new puzzle. It ensures the solver and pytest fixtures can automatically identify which solution to execute with the proper puzzle input (hopefully this will be automated sometime soon 🚀).
+Simply run `aoc-solver <year> <day>` to automatically download the example input and create a new solution module and corresponding test if it cannot find the requests puzzle solution. The functionality is idempotent (its safe to run back-to-back). It will only download resources if the solution module is missing and will not overwrite existing puzzle resources. (Worst case scenario: use `git` to roll-back any accidental overwrites 💻)
 
-1. Create a `test_day_##.py` test module in the appropriate `tests/aoc_solver/YYYY` directory.
-1. Copy the example puzzle input to the corresponding `test_day_##.txt` file in the same test directory.
-1. Go ahead and write a test based on the example solution (you know you're still doing TDD 🧪). Here's a scaffold to start with:
+If you want to download the latest puzzle available, run `aoc-solver` without any arguments.
 
-   ```python
-   from aoc_solver.utilities import Solution
+You'll still need to manually download the full puzzle input for now and save to the correct location.
 
-   def test_solve_calculates_puzzle_answers(puzzle_module, mock_puzzle_input):
-       assert puzzle_module.solve(puzzle_input=mock_puzzle_input) == Solution(first=None, second=None)
-   ```
+> NOTE: Auto-download of the full puzzle input is pending as it requires an authentication.
 
-1. Create a `day_##.py` module in the appropriate `src/aoc_solver/YYYY` directory.
-1. Download the puzzle input to the corresponding `day_##.txt` file in the same package directory.
-1. Add a `solve()` method that reads the corresponding puzzle input and returns a `Solution` named tuple for the solutions for 1st and 2nd parts of the puzzle. Scaffold:
-
-   ```python
-   import typing
-
-   from aoc_solver.utilities import Solution
-
-   # --- Day #: <Puzzle Name> ---
-   # Source: https://adventofcode.com/YYYY/day/#
-
-   def solve(puzzle_input=typing.List[str]) -> Solution:
-       return Solution(
-           first=None,
-           second=None,
-       )
-   ```
+1. [Login into Advent of Code](https://adventofcode.com/2022/auth/login).
+1. Download the puzzle input to the corresponding `day_##.txt` file in `src/aoc_solver/YYYY/`.
 
 Huzzah! Running `aoc-solver` and `pytest` on the new puzzle should work with the blank solution. May you never be in a state of having untested code! 🙌🏾
 
