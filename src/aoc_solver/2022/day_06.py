@@ -16,7 +16,8 @@ def detect_start_of_packet_marker(datastream: str, marker_size: int = 4) -> int:
 
 
 def solve(puzzle_input=typing.List[str]) -> Solution:
+    datastream = puzzle_input[0]
     return Solution(
-        first=detect_start_of_packet_marker(puzzle_input[0]),
-        second=None,
+        first=detect_start_of_packet_marker(datastream=datastream),
+        second=detect_start_of_packet_marker(datastream=datastream, marker_size=14),
     )
