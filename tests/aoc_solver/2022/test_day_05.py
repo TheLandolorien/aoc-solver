@@ -1,5 +1,4 @@
 import pytest
-from collections import namedtuple
 
 from aoc_solver.utilities import Solution
 

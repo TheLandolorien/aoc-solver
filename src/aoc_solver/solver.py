@@ -1,7 +1,6 @@
 import sys
 import typing
 
-
 from datetime import datetime, timedelta, timezone
 
 from aoc_solver.utilities import run_solution

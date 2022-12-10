@@ -1,19 +1,15 @@
 import os
-from string import Template
 import requests
 import typing
 
-from importlib import util as importlib_util
 from html.parser import HTMLParser
-
-from collections import namedtuple
+from importlib import util as importlib_util
 from importlib.machinery import ModuleSpec
+from string import Template
 
+from aoc_solver.object_types import Solution, PuzzleMetadata
 
 SRC_PATH, PACKAGE_NAME = os.path.split(os.path.dirname(__file__))
-
-Solution = namedtuple("Solution", ["first", "second"])
-PuzzleMetadata = namedtuple("Puzzle", ["title", "year", "day", "example_input", "puzzle_input"])
 
 
 class ExamplePuzzleInputParser(HTMLParser):

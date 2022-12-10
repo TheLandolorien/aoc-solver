@@ -1,5 +1,10 @@
 import typing
 
+from collections import namedtuple
+
+Solution = namedtuple("Solution", ["first", "second"])
+PuzzleMetadata = namedtuple("Puzzle", ["title", "year", "day", "example_input", "puzzle_input"])
+
 
 class FileSystemNode:
     ERROR_MESSAGE_INVALID_CHILD_ADDITION = "Children can only be added to directories"
