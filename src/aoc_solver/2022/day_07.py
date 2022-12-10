@@ -4,6 +4,9 @@ from aoc_solver.utilities import Solution
 from aoc_solver.object_types import FileSystemNode
 
 
+TOTAL_DISK_SPACE_AVAILABLE = 70000000
+NEEDED_UNUSED_DISK_SPACE = 30000000
+
 # --- Day 7: No Space Left On Device ---
 # Source: https://adventofcode.com/2022/day/7
 
@@ -36,25 +39,46 @@ def parse_filesystem(terminal_output: typing.List[str]) -> FileSystemNode:
     return root
 
 
-# What is the sum of the total sizes of those directories?
 def calculate_total_directory_sizes_under_max(terminal_output: typing.List[str], max_directory_size: int = 100000) -> int:
     filesystem = parse_filesystem(terminal_output=terminal_output)
 
-    queue = [filesystem]
-    total = 0
+    queue = filesystem.children.copy()
+    total_directory_sizes_under_max = 0
 
     while queue:
         current_node = queue.pop()
         queue.extend(current_node.children)
 
-        if current_node.name != filesystem.name and current_node.object_type == "dir" and current_node.size < max_directory_size + 1:
-            total += current_node.size
+        if current_node.object_type == "dir" and current_node.size < max_directory_size + 1:
+            total_directory_sizes_under_max += current_node.size
 
-    return total
+    return total_directory_sizes_under_max
+
+
+def find_smallest_deletable_directory_size_for_update(terminal_output: typing.List[str]) -> int:
+    filesystem = parse_filesystem(terminal_output=terminal_output)
+
+    queue = filesystem.children.copy()
+    min_deletable_space = TOTAL_DISK_SPACE_AVAILABLE
+
+    while queue:
+        current_node = queue.pop()
+        queue.extend(current_node.children)
+
+        size = current_node.size
+        if (
+            current_node.object_type == "dir"
+            and TOTAL_DISK_SPACE_AVAILABLE - filesystem.size + size >= NEEDED_UNUSED_DISK_SPACE
+            and size < min_deletable_space
+        ):
+            min_deletable_space = size
+
+    return min_deletable_space
 
 
 def solve(puzzle_input=typing.List[str]) -> Solution:
+    # TODO: Refactor to pre-parse filesystem
     return Solution(
         first=calculate_total_directory_sizes_under_max(terminal_output=puzzle_input),
-        second=None,
+        second=find_smallest_deletable_directory_size_for_update(terminal_output=puzzle_input),
     )
