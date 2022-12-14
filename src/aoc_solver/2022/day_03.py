@@ -1,6 +1,6 @@
 import typing
 
-from aoc_solver.utilities import Solution
+from aoc_solver.object_types import Solution
 
 # --- Day 3: Rucksack Reorganization ---
 # Source: https://adventofcode.com/2022/day/3

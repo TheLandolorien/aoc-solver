@@ -2,7 +2,7 @@ import textwrap
 import typing
 
 
-from aoc_solver.utilities import Solution
+from aoc_solver.object_types import Solution
 
 # --- Day #: Supply Stacks ---
 # Source: https://adventofcode.com/2022/day/5

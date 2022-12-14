@@ -1,9 +1,32 @@
 import typing
 
 from collections import namedtuple
+from html.parser import HTMLParser
 
 Solution = namedtuple("Solution", ["first", "second"])
-PuzzleMetadata = namedtuple("Puzzle", ["title", "year", "day", "example_input", "puzzle_input"])
+PuzzleMetadata = namedtuple("Puzzle", ["title", "year", "day", "formatted_day", "example_input", "puzzle_input"])
+
+
+class ExamplePuzzleInputParser(HTMLParser):
+    example_input = None
+    should_extract_example_input = False
+
+    puzzle_title = None
+    should_extract_puzzle_title = False
+
+    def handle_starttag(self, tag, _) -> None:
+        if tag == "h2":
+            self.should_extract_puzzle_title = True
+
+    def handle_data(self, data):
+        if self.should_extract_puzzle_title:
+            self.puzzle_title = data
+            self.should_extract_puzzle_title = False
+        elif self.should_extract_example_input and data != "\n":
+            self.example_input = data
+            self.should_extract_example_input = False
+        elif "For example" in data:
+            self.should_extract_example_input = True
 
 
 class FileSystemNode:

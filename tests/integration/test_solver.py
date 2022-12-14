@@ -2,7 +2,7 @@ from datetime import datetime
 from unittest.mock import patch
 
 from aoc_solver import solver
-from aoc_solver.utilities import Solution
+from aoc_solver.object_types import Solution
 
 
 @patch("sys.argv", ["solve"])

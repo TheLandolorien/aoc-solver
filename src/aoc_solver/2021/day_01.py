@@ -1,6 +1,6 @@
 import typing
 
-from aoc_solver.utilities import Solution
+from aoc_solver.object_types import Solution
 
 # --- Day 1: Sonar Sweep ---
 # Source: https://adventofcode.com/2021/day/1

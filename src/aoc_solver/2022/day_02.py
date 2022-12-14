@@ -1,7 +1,7 @@
 from types import FunctionType
 import typing
 
-from aoc_solver.utilities import Solution
+from aoc_solver.object_types import Solution
 
 # --- Day 2: Rock Paper Scissors ---
 # Source: https://adventofcode.com/2022/day/2

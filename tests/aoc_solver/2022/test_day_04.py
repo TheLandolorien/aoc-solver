@@ -1,5 +1,5 @@
 import pytest
-from aoc_solver.utilities import Solution
+from aoc_solver.object_types import Solution
 
 
 @pytest.mark.parametrize(

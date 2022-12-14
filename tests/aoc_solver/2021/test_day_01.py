@@ -1,6 +1,6 @@
 import pytest
 
-from aoc_solver.utilities import Solution
+from aoc_solver.object_types import Solution
 
 
 def test_solve_calculates_puzzle_answers(puzzle_module, mock_puzzle_input):

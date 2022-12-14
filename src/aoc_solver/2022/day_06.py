@@ -1,6 +1,6 @@
 import typing
 
-from aoc_solver.utilities import Solution
+from aoc_solver.object_types import Solution
 
 # --- Day 6: Tuning Trouble ---
 # Source: https://adventofcode.com/2022/day/6
