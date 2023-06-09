@@ -1,5 +1,6 @@
 import pytest
-from aoc_solver.object_types import FileSystemNode
+
+from aoc_solver.object_types import ExamplePuzzleInputParser, FileSystemNode
 
 
 class TestFileSystemNode:
@@ -77,3 +78,26 @@ class TestFileSystemNode:
 
         root.children[0].children[0].add_child(name="e.csv", object_type="file", size=500)
         assert root.size == 1100, "should increase size for new great-grandchild files"
+
+
+class TestExamplePuzzleInputParser:
+
+    @pytest.fixture
+    def instance(self):
+        return ExamplePuzzleInputParser()
+
+    def test_parser_extracts_puzzle_title(self, instance):
+        instance.feed("<h2>--- Day 0: Puzzle Title ---</h2>")
+        instance.close()
+
+        assert instance.puzzle_title == "--- Day 0: Puzzle Title ---", "should extract puzzle title"
+
+    def test_parser_extracts_example_input(self, instance):
+        puzzle_example_html = ("<p>For example:</p>\n"
+                               "<pre><code>"
+                               "A\nB\nC"
+                               "</code></pre>")
+        instance.feed(puzzle_example_html)
+        instance.close()
+
+        assert instance.example_input == "A\nB\nC", "should extract example input"

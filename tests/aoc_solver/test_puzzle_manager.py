@@ -1,5 +1,3 @@
-import pytest
-
 from unittest.mock import ANY, mock_open, patch
 
 from aoc_solver import puzzle_manager
@@ -9,9 +7,10 @@ from aoc_solver import puzzle_manager
 @patch("aoc_solver.puzzle_manager.ExamplePuzzleInputParser")
 @patch("aoc_solver.puzzle_manager.requests")
 @patch("aoc_solver.puzzle_manager.os")
+@patch("aoc_solver.puzzle_manager.Template")
 @patch("builtins.open", new_callable=mock_open, read_data="$title\n$year\n$day")
-def test_create_puzzle_resources_writes_missing_files(mock_open, mock_os, mock_requests, mock_parser, mock_authenticator, project_directory):
-    mock_os.path.isfile.side_effect = [False, False, True, True]
+def test_create_puzzle_resources_writes_missing_files(mock_open, mock_template, mock_os, mock_requests, mock_parser, mock_authenticator, project_directory):
+    mock_os.path.isfile.return_value = False
 
     puzzle_manager.create_puzzle_resources(year=2022, day=1)
 
@@ -29,9 +28,9 @@ def test_create_puzzle_resources_writes_missing_files(mock_open, mock_os, mock_r
     mock_os.path.join.assert_any_call(ANY, 'aoc_solver', '2022', 'test_day_01.txt')
     mock_os.path.join.assert_any_call(ANY, 'aoc_solver', '2022', 'day_01.py')
     mock_os.path.join.assert_any_call(ANY, 'aoc_solver', '2022', 'test_day_01.py')
-    mock_os.makedirs.assert_called()
     mock_open.return_value.write.assert_any_call(mock_parser.return_value.example_input)
     mock_open.return_value.write.assert_any_call(mock_requests.Session.return_value.get.return_value.text)
+    mock_open.return_value.write.assert_any_call(mock_template().substitute.return_value)
 
 
 @patch("aoc_solver.puzzle_manager.authenticator")
