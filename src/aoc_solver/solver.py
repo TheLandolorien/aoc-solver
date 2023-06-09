@@ -42,6 +42,7 @@ def _validate_arguments() -> typing.Tuple[int, int]:
 
         if now.month != 12:
             year -= 1
+            day = 25
 
         if now.day > 25:
             day = 25

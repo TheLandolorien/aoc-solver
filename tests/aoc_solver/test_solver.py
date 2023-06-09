@@ -61,7 +61,8 @@ def test_solve_existing_puzzle_with_valid_arguments(mock_utilities, mock_puzzle_
     [
         ("latest solution available during active event", datetime(2022, 12, 1), ["solve"], (2022, 1)),
         ("latest solution available immediately after event", datetime(2022, 12, 26), ["solve"], (2022, 25)),
-        ("latest solution available from previous event", datetime(2023, 11, 30), ["solve"], (2022, 25)),
+        ("latest solution available from previous event when day is before the 25th", datetime(2023, 6, 9), ["solve"], (2022, 25)),
+        ("latest solution available from previous event when day is after the 25th", datetime(2023, 11, 30), ["solve"], (2022, 25)),
         ("previous solution given puzzle info", None, ["solve", "2015", "1"], (2015, 1)),
     ],
 )
