@@ -91,4 +91,4 @@ The main integration test ([test_solver.py](./tests/integration/test_solver.py))
 
 ## 🪪 License
 
-This project template is [MIT licensed](https://github.com/thelandolorien/advent-of-code/blob/main/LICENSE).
+This project template is [MIT licensed](./LICENSE).
