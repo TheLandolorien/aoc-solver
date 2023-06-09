@@ -23,7 +23,7 @@ def test_authenticate_uses_valid_stored_session_cookie_by_default(mock_open, moc
     mock_open.assert_called_once_with(file=authenticator.CONFIG_FILE_PATH, mode="r")
     mock_open().read.assert_called_once()
     mock_session.cookies.set.assert_called_once_with(name="session", value="foo")
-    mock_session.get.assert_called_once_with(url="https://adventofcode.com/settings")
+    mock_session.get.assert_called_once_with(url="https://adventofcode.com/settings", allow_redirects=False)
 
 
 @pytest.mark.parametrize("provider", [(None), ("github"), ("reddit")])
@@ -79,7 +79,7 @@ def test_authenticate_refreshes_invalid_session_cookie(mock_open, mock_os, mock_
     mock_importer.find_spec.return_value.loader.exec_module.assert_called_once_with(module=mock_importer.module_from_spec.return_value)
     mock_importer.module_from_spec.return_value.authenticate.assert_called_once()
     mock_session.cookies.set.assert_called_once_with(name="session", value="bar")
-    mock_session.get.assert_called_once_with(url="https://adventofcode.com/settings")
+    mock_session.get.assert_called_once_with(url="https://adventofcode.com/settings", allow_redirects=False)
     mock_open.assert_any_call(file=authenticator.CONFIG_FILE_PATH, mode="w")
     mock_open.assert_any_call(file=authenticator.CONFIG_FILE_PATH, mode="r")
     mock_open.return_value.write.assert_any_call("{")
