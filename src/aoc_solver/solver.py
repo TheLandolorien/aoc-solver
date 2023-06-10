@@ -50,7 +50,7 @@ def _validate_arguments() -> typing.Tuple[int, int]:
     return (int(year), int(day))
 
 
-def solve() -> object_types.Solution:
+def solve() -> None:
     year, day = _validate_arguments()
 
     formatted_day = str(day).zfill(2)
@@ -61,4 +61,6 @@ def solve() -> object_types.Solution:
         puzzle_manager.create_puzzle_resources(year=year, day=day)
         puzzle_module = utilities.load_module(relative_module_name=module_name)
 
-    return puzzle_module.solve(puzzle_input=puzzle_manager.read_puzzle_input(year=year, day=day))
+    first, second = puzzle_module.solve(puzzle_input=puzzle_manager.read_puzzle_input(year=year, day=day))
+    print(f"Part One: The puzzle answer is {first}")
+    print(f"Part Two: The puzzle answer is {second}")

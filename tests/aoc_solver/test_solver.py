@@ -1,10 +1,15 @@
 import pytest
-from unittest.mock import DEFAULT, patch
+from unittest.mock import Mock, patch
 
 from datetime import datetime
 from aoc_solver.object_types import PuzzleMetadata
 
 from aoc_solver import solver
+
+
+@pytest.fixture
+def mock_puzzle_module():
+    return Mock(**{"solve.return_value": [None, None]})
 
 
 @pytest.mark.parametrize(
@@ -40,15 +45,27 @@ def test_solve_with_invalid_arguments(scenario, invalid_args, additional_error_m
 @patch("aoc_solver.solver.datetime")
 @patch("aoc_solver.solver.puzzle_manager")
 @patch("aoc_solver.solver.utilities")
-def test_solve_existing_puzzle_with_valid_arguments(mock_utilities, mock_puzzle_manager, mock_datetime, scenario, now, cli_args, expected_dates):
+def test_solve_existing_puzzle_with_valid_arguments(
+    mock_utilities,
+    mock_puzzle_manager,
+    mock_datetime,
+    scenario,
+    now,
+    cli_args,
+    expected_dates,
+    mock_puzzle_module,
+    capsys,
+):
     mock_datetime.now.return_value = now
+    mock_utilities.load_module.return_value = mock_puzzle_module
     sys_patch = patch("sys.argv", cli_args)
 
     sys_patch.start()
-    solution = solver.solve()
+    solver.solve()
     sys_patch.stop()
 
-    assert solution is not None, f"should run {scenario}"
+    captured = capsys.readouterr()
+    assert captured.out == "Part One: The puzzle answer is None\nPart Two: The puzzle answer is None\n", f"should run {scenario}"
 
     year, day = expected_dates
 
@@ -69,19 +86,31 @@ def test_solve_existing_puzzle_with_valid_arguments(mock_utilities, mock_puzzle_
 @patch("aoc_solver.solver.datetime")
 @patch("aoc_solver.solver.puzzle_manager")
 @patch("aoc_solver.solver.utilities")
-def test_solve_missing_puzzle_with_valid_arguments(mock_utilities, mock_puzzle_manager, mock_datetime, scenario, mock_now, cli_args, expected_dates):
+def test_solve_missing_puzzle_with_valid_arguments(
+    mock_utilities,
+    mock_puzzle_manager,
+    mock_datetime,
+    scenario,
+    mock_now,
+    cli_args,
+    expected_dates,
+    mock_puzzle_module,
+    capsys,
+):
     mock_datetime.now.return_value = mock_now
-    mock_utilities.load_module.side_effect = [None, DEFAULT]
+    mock_utilities.load_module.side_effect = [None, mock_puzzle_module]
 
     sys_patch = patch("sys.argv", cli_args)
 
     sys_patch.start()
-    solution = solver.solve()
+    solver.solve()
     sys_patch.stop()
 
-    assert solution is not None, f"should run {scenario}"
+    captured = capsys.readouterr()
+    assert captured.out == "Part One: The puzzle answer is None\nPart Two: The puzzle answer is None\n", f"should run {scenario}"
 
     year, day = expected_dates
     mock_utilities.load_module.assert_any_call(relative_module_name=f"{year}.day_{str(day).zfill(2)}")
     assert mock_utilities.load_module.call_count == 2, "should reload module after creating resources"
     mock_puzzle_manager.read_puzzle_input.assert_called_once_with(year=year, day=day)
+    mock_puzzle_module.solve.assert_called_once_with(puzzle_input=mock_puzzle_manager.read_puzzle_input.return_value)

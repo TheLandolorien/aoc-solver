@@ -21,4 +21,4 @@ def puzzle_module(request) -> ModuleType:
 
 @pytest.fixture(scope="module")
 def project_directory() -> str:
-    return os.path.split(os.path.dirname(os.path.dirname(__file__)))[0]
+    return os.path.split(os.path.dirname(__file__))[0]
