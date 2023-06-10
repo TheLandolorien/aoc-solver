@@ -31,6 +31,9 @@ pytest-cov = "^4.0.0"
 [tool.poetry.group.dev.dependencies]
 black = "^22.10.0"
 
+[tool.black]
+line-length = 100
+
 [tool.pytest.ini_options]
 minversion = "7.2.0"
 pythonpath = "src"

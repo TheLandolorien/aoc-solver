@@ -30,7 +30,11 @@ def calculate_score_by_plays(encrypted_counter: str, encrypted_play: str) -> int
 def determine_outcome(counter: str, play: str) -> str:
     if play == counter:
         return "draw"
-    elif (play == "rock" and counter == "scissors") or (play == "scissors" and counter == "paper") or (play == "paper" and counter == "rock"):
+    elif (
+        (play == "rock" and counter == "scissors")
+        or (play == "scissors" and counter == "paper")
+        or (play == "paper" and counter == "rock")
+    ):
         return "win"
 
     return "lose"

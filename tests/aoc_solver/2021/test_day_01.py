@@ -27,5 +27,9 @@ def test_count_depth_increases_with_default_window_size_of_1(depths, num_increas
         ([10, 20, 30, 10, 20, 30, 20, 10, 10], 3, 1),
     ],
 )
-def test_count_depth_increases_with_larger_window_sizes(depths, window_size, num_increases, puzzle_module):
-    assert puzzle_module.count_depth_increases(depths=depths, window_size=window_size) == num_increases
+def test_count_depth_increases_with_larger_window_sizes(
+    depths, window_size, num_increases, puzzle_module
+):
+    assert (
+        puzzle_module.count_depth_increases(depths=depths, window_size=window_size) == num_increases
+    )

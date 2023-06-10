@@ -13,7 +13,9 @@ def calculate_total_common_item_priorities(rucksacks: typing.List[str], group_si
             rucksack_groups.append([])
         rucksack_groups[-1].append(rucksacks[i])
 
-    return sum([determine_priority(find_common_item_type(rucksacks)) for rucksacks in rucksack_groups])
+    return sum(
+        [determine_priority(find_common_item_type(rucksacks)) for rucksacks in rucksack_groups]
+    )
 
 
 def determine_intersection(*args) -> str:

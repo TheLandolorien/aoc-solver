@@ -61,6 +61,8 @@ def solve() -> None:
         puzzle_manager.create_puzzle_resources(year=year, day=day)
         puzzle_module = utilities.load_module(relative_module_name=module_name)
 
-    first, second = puzzle_module.solve(puzzle_input=puzzle_manager.read_puzzle_input(year=year, day=day))
+    first, second = puzzle_module.solve(
+        puzzle_input=puzzle_manager.read_puzzle_input(year=year, day=day)
+    )
     print(f"Part One: The puzzle answer is {first}")
     print(f"Part Two: The puzzle answer is {second}")

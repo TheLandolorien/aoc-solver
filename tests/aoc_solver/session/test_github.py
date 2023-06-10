@@ -11,7 +11,9 @@ def test_authenticate_raises_for_missing_web_driver(mock_exception):
     with pytest.raises(ImportError) as ex:
         github.authenticate()
 
-    assert "Unable to open browser for GitHub authentication." in str(ex.value), "should provide reason for WebDriverException"
+    assert "Unable to open browser for GitHub authentication." in str(
+        ex.value
+    ), "should provide reason for WebDriverException"
     mock_exception.assert_called_once()
 
 

@@ -23,7 +23,9 @@ def _build_puzzle_metadata(year: int, day: int) -> PuzzleMetadata:
     )
 
 
-def _build_puzzle_resource_path(year: int, day: int, is_test: bool = False, is_module: bool = False) -> str:
+def _build_puzzle_resource_path(
+    year: int, day: int, is_test: bool = False, is_module: bool = False
+) -> str:
     top_directory = SRC_PATH
     filename = f"day_{_format_day(day)}"
     file_extension = "py" if is_module else "txt"
@@ -40,7 +42,9 @@ def _clone_templates(metadata: PuzzleMetadata) -> None:
 
     for template in templates:
         is_test = template.startswith("test")
-        module_path = _build_puzzle_resource_path(year=metadata.year, day=metadata.day, is_test=is_test, is_module=True)
+        module_path = _build_puzzle_resource_path(
+            year=metadata.year, day=metadata.day, is_test=is_test, is_module=True
+        )
 
         if not os.path.isfile(path=module_path):
             with open(file=os.path.join(SRC_PATH, "templates", template), mode="r") as f:
@@ -48,7 +52,11 @@ def _clone_templates(metadata: PuzzleMetadata) -> None:
 
             os.makedirs(name=os.path.dirname(module_path), exist_ok=True)
             with open(file=module_path, mode="w") as f:
-                f.write(template_contents.substitute({"title": metadata.title, "year": metadata.year, "day": metadata.day}))
+                f.write(
+                    template_contents.substitute(
+                        {"title": metadata.title, "year": metadata.year, "day": metadata.day}
+                    )
+                )
 
             print(f"Created puzzle module at {module_path}")
 

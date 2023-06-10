@@ -4,7 +4,9 @@ from aoc_solver.object_types import Solution
 
 
 def test_solve_calculates_puzzle_answers(puzzle_module, mock_puzzle_input):
-    assert puzzle_module.solve(puzzle_input=mock_puzzle_input) == Solution(first="CMZ", second="MCD")
+    assert puzzle_module.solve(puzzle_input=mock_puzzle_input) == Solution(
+        first="CMZ", second="MCD"
+    )
 
 
 @pytest.mark.parametrize(
@@ -60,7 +62,9 @@ def test_flatten_stacks(stacks, flattened_stacks, puzzle_module):
     ],
 )
 def test_move_crates_in_reverse_by_default(flattened_stacks, step, new_arrangement, puzzle_module):
-    assert puzzle_module.move_crates(flattened_stacks=flattened_stacks, step=step) == new_arrangement
+    assert (
+        puzzle_module.move_crates(flattened_stacks=flattened_stacks, step=step) == new_arrangement
+    )
 
 
 @pytest.mark.parametrize(
@@ -79,4 +83,7 @@ def test_move_crates_in_reverse_by_default(flattened_stacks, step, new_arrangeme
     ],
 )
 def test_move_crates_in_order(flattened_stacks, step, new_arrangement, puzzle_module):
-    assert puzzle_module.move_crates(flattened_stacks=flattened_stacks, step=step, in_order=True) == new_arrangement
+    assert (
+        puzzle_module.move_crates(flattened_stacks=flattened_stacks, step=step, in_order=True)
+        == new_arrangement
+    )

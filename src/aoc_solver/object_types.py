@@ -4,7 +4,9 @@ from collections import namedtuple
 from html.parser import HTMLParser
 
 Solution = namedtuple("Solution", ["first", "second"])
-PuzzleMetadata = namedtuple("Puzzle", ["title", "year", "day", "formatted_day", "example_input", "puzzle_input"])
+PuzzleMetadata = namedtuple(
+    "Puzzle", ["title", "year", "day", "formatted_day", "example_input", "puzzle_input"]
+)
 
 
 class ExamplePuzzleInputParser(HTMLParser):
@@ -32,7 +34,14 @@ class ExamplePuzzleInputParser(HTMLParser):
 class FileSystemNode:
     ERROR_MESSAGE_INVALID_CHILD_ADDITION = "Children can only be added to directories"
 
-    def __init__(self, name: str, object_type: str, size: int = 0, parent: "FileSystemNode" = None, children: typing.List = None):
+    def __init__(
+        self,
+        name: str,
+        object_type: str,
+        size: int = 0,
+        parent: "FileSystemNode" = None,
+        children: typing.List = None,
+    ):
 
         if children and object_type == "file":
             raise AttributeError(self.ERROR_MESSAGE_INVALID_CHILD_ADDITION)

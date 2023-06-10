@@ -20,8 +20,16 @@ def generate_range_set(assignment: str) -> typing.Set[int]:
     return set(range(start, stop + 1))
 
 
-def count_special_assignments(assignment_pairs: typing.List[typing.List[str]], counter: FunctionType = is_contained) -> int:
-    return len([result for assignments in assignment_pairs if (result := counter(*map(generate_range_set, assignments)))])
+def count_special_assignments(
+    assignment_pairs: typing.List[typing.List[str]], counter: FunctionType = is_contained
+) -> int:
+    return len(
+        [
+            result
+            for assignments in assignment_pairs
+            if (result := counter(*map(generate_range_set, assignments)))
+        ]
+    )
 
 
 def solve(puzzle_input=typing.List[str]) -> Solution:
@@ -29,5 +37,7 @@ def solve(puzzle_input=typing.List[str]) -> Solution:
 
     return Solution(
         first=count_special_assignments(assignment_pairs=assignment_pairs[:]),
-        second=count_special_assignments(assignment_pairs=assignment_pairs[:], counter=is_intersection),
+        second=count_special_assignments(
+            assignment_pairs=assignment_pairs[:], counter=is_intersection
+        ),
     )

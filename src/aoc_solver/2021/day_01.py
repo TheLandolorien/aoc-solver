@@ -7,8 +7,16 @@ from aoc_solver.object_types import Solution
 
 
 def count_depth_increases(depths: typing.List[int], window_size: int = 1) -> int:
-    grouped_depths = [sum(depths[i : i + window_size]) for i in range(len(depths) - window_size + 1)]
-    return len([grouped_depths[i] for i in range(1, len(grouped_depths)) if grouped_depths[i] > grouped_depths[i - 1]])
+    grouped_depths = [
+        sum(depths[i : i + window_size]) for i in range(len(depths) - window_size + 1)
+    ]
+    return len(
+        [
+            grouped_depths[i]
+            for i in range(1, len(grouped_depths))
+            if grouped_depths[i] > grouped_depths[i - 1]
+        ]
+    )
 
 
 def solve(puzzle_input=typing.List[str]) -> Solution:

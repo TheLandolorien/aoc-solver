@@ -22,8 +22,15 @@ def test_determine_priority(scenario, letter, priority, puzzle_module):
         ("calculate groups of 3", ["aBcB", "dBde", "fBfg", "hghI", "IjKj", "lIlm"], 3, 63),
     ],
 )
-def test_calculate_total_common_item_priorities(scenario, rucksacks, group_size, total, puzzle_module):
-    assert puzzle_module.calculate_total_common_item_priorities(rucksacks=rucksacks, group_size=group_size) == total, f"should {scenario}"
+def test_calculate_total_common_item_priorities(
+    scenario, rucksacks, group_size, total, puzzle_module
+):
+    assert (
+        puzzle_module.calculate_total_common_item_priorities(
+            rucksacks=rucksacks, group_size=group_size
+        )
+        == total
+    ), f"should {scenario}"
 
 
 def test_solve_calculates_puzzle_answers(puzzle_module, mock_puzzle_input):

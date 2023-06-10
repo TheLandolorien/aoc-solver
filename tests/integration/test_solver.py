@@ -57,7 +57,9 @@ def test_solver_with_existing_puzzle(mock_datetime, capsys):
     solver.solve()
 
     captured = capsys.readouterr()
-    assert captured.out == "Part One: The puzzle answer is 567\nPart Two: The puzzle answer is 907\n", f"should use existing answers"
+    assert (
+        captured.out == "Part One: The puzzle answer is 567\nPart Two: The puzzle answer is 907\n"
+    ), f"should use existing answers"
 
 
 @patch("sys.argv", ["solve", "2022", "1"])
@@ -65,7 +67,10 @@ def test_solver_with_integer_answers(capsys):
     solver.solve()
 
     captured = capsys.readouterr()
-    assert captured.out == "Part One: The puzzle answer is 65912\nPart Two: The puzzle answer is 195625\n", f"should correctly cast integer answers"
+    assert (
+        captured.out
+        == "Part One: The puzzle answer is 65912\nPart Two: The puzzle answer is 195625\n"
+    ), f"should correctly cast integer answers"
 
 
 @patch("sys.argv", ["solve", "2022", "5"])

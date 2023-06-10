@@ -98,7 +98,9 @@ def test_parse_filesystem_containing_only_subdirectories(mock_terminal_output, p
 
     sub_sub_sub_file_1 = sub_sub_dir_1.children[0]
     assert sub_sub_sub_file_1.name == "k.svg", "should parse great-great-grandchild object names"
-    assert sub_sub_sub_file_1.object_type == "file", "should parse great-great-grandchild object types"
+    assert (
+        sub_sub_sub_file_1.object_type == "file"
+    ), "should parse great-great-grandchild object types"
     assert sub_sub_sub_file_1.size == 1100, "should sum great-great-great-grandchild objects sizes"
     assert sub_sub_sub_file_1.children == [], "should parse great-great-great-grandchild objects"
 
@@ -111,9 +113,13 @@ def test_parse_filesystem_containing_only_subdirectories(mock_terminal_output, p
         (2000, 4700),
     ],
 )
-def test_calculate_total_directory_sizes(max_directory_size, expected_total, mock_terminal_output, puzzle_module):
+def test_calculate_total_directory_sizes(
+    max_directory_size, expected_total, mock_terminal_output, puzzle_module
+):
     assert (
-        puzzle_module.calculate_total_directory_sizes_under_max(terminal_output=mock_terminal_output, max_directory_size=max_directory_size)
+        puzzle_module.calculate_total_directory_sizes_under_max(
+            terminal_output=mock_terminal_output, max_directory_size=max_directory_size
+        )
         == expected_total
     ), f"should only total directory sizes of at most {max_directory_size}"
 

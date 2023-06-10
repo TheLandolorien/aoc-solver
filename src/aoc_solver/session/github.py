@@ -19,7 +19,9 @@ def authenticate() -> typing.Union[str, None]:
     browser = _load_webdriver()
 
     browser.get(url=OAUTH_AUTHORIZE_URL)
-    WebDriverWait(driver=browser, timeout=60).until(method=expected_conditions.url_matches(pattern=AOC_URL))
+    WebDriverWait(driver=browser, timeout=60).until(
+        method=expected_conditions.url_matches(pattern=AOC_URL)
+    )
 
     session_cookie = browser.get_cookie(name="session").get("value")
     browser.quit()

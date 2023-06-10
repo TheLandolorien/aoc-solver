@@ -39,7 +39,9 @@ def parse_filesystem(terminal_output: typing.List[str]) -> FileSystemNode:
     return root
 
 
-def calculate_total_directory_sizes_under_max(terminal_output: typing.List[str], max_directory_size: int = 100000) -> int:
+def calculate_total_directory_sizes_under_max(
+    terminal_output: typing.List[str], max_directory_size: int = 100000
+) -> int:
     filesystem = parse_filesystem(terminal_output=terminal_output)
 
     queue = filesystem.children.copy()

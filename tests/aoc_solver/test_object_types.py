@@ -6,9 +6,16 @@ from aoc_solver.object_types import ExamplePuzzleInputParser, FileSystemNode
 class TestFileSystemNode:
     def test_constructor_raises_for_invalid_child_addition(self):
         with pytest.raises(AttributeError) as err:
-            FileSystemNode(name="a.txt", object_type="file", size=100, children=[FileSystemNode(name="b.log", object_type="file", size=200)])
+            FileSystemNode(
+                name="a.txt",
+                object_type="file",
+                size=100,
+                children=[FileSystemNode(name="b.log", object_type="file", size=200)],
+            )
 
-        assert str(err.value) == "Children can only be added to directories", "should raise for invalid child addition"
+        assert (
+            str(err.value) == "Children can only be added to directories"
+        ), "should raise for invalid child addition"
 
     @pytest.mark.parametrize(
         "scenario,node,expected_output",
@@ -36,7 +43,11 @@ class TestFileSystemNode:
                     name="/",
                     object_type="dir",
                     children=[
-                        FileSystemNode(name="a", object_type="dir", children=[FileSystemNode(name="b.log", object_type="file", size=200)]),
+                        FileSystemNode(
+                            name="a",
+                            object_type="dir",
+                            children=[FileSystemNode(name="b.log", object_type="file", size=200)],
+                        ),
                     ],
                 ),
                 "FileSystemNode(name=/, object_type=dir, size=0, children=[FileSystemNode(name=a, object_type=dir, size=0, children=[FileSystemNode(name=b.log, object_type=file, size=200, children=[])])])",
@@ -48,9 +59,13 @@ class TestFileSystemNode:
 
     def test_add_child_raises_for_invalid_addition(self):
         with pytest.raises(AttributeError) as err:
-            FileSystemNode(name="a.txt", object_type="file", size=100).add_child(name="b.log", object_type="file", size=200)
+            FileSystemNode(name="a.txt", object_type="file", size=100).add_child(
+                name="b.log", object_type="file", size=200
+            )
 
-        assert str(err.value) == "Children can only be added to directories", "should raise for invalid child addition"
+        assert (
+            str(err.value) == "Children can only be added to directories"
+        ), "should raise for invalid child addition"
 
     def test_add_and_find_children(self):
         root = FileSystemNode(name="/", object_type="dir")
@@ -81,7 +96,6 @@ class TestFileSystemNode:
 
 
 class TestExamplePuzzleInputParser:
-
     @pytest.fixture
     def instance(self):
         return ExamplePuzzleInputParser()
@@ -93,10 +107,7 @@ class TestExamplePuzzleInputParser:
         assert instance.puzzle_title == "--- Day 0: Puzzle Title ---", "should extract puzzle title"
 
     def test_parser_extracts_example_input(self, instance):
-        puzzle_example_html = ("<p>For example:</p>\n"
-                               "<pre><code>"
-                               "A\nB\nC"
-                               "</code></pre>")
+        puzzle_example_html = "<p>For example:</p>\n" "<pre><code>" "A\nB\nC" "</code></pre>"
         instance.feed(puzzle_example_html)
         instance.close()
 

@@ -13,5 +13,9 @@ from aoc_solver.object_types import Solution
         (["aaabbbcccdddeeefffggghhhiiijjjk"], -1, -1),
     ],
 )
-def test_solve_calculates_puzzle_answers(mock_datastream, package_marker_end, message_marker_end, puzzle_module):
-    assert puzzle_module.solve(puzzle_input=mock_datastream) == Solution(first=package_marker_end, second=message_marker_end)
+def test_solve_calculates_puzzle_answers(
+    mock_datastream, package_marker_end, message_marker_end, puzzle_module
+):
+    assert puzzle_module.solve(puzzle_input=mock_datastream) == Solution(
+        first=package_marker_end, second=message_marker_end
+    )
