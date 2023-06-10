@@ -57,6 +57,8 @@ Simply run `aoc-solver <year> <day>` to automatically download the example input
 
 If you want to download the latest puzzle available, run `aoc-solver` without any arguments.
 
+**NOTE**: There is currently a bug where puzzles for years without any previous solutions cannot be downloaded automatically. The workaround is to manually create the year directory before generating a new solution template (e.g., `mkdir src/aoc_solver/<YYYY>`)
+
 Huzzah! Running `pytest` with the new puzzle will automatically pass with a default solution of `None`. May you never be in a state of having untested code! 🙌🏾
 
 ## 🧪 Running Tests
