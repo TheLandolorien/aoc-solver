@@ -108,7 +108,6 @@ def _write_puzzle_input(contents: str, path: str) -> None:
 
 
 def create_puzzle_resources(year: int, day: int) -> None:
-    # TODO: Auto-create new year if no puzzles exists for it
     metadata = _build_puzzle_metadata(year=year, day=day)
     _save_puzzle_inputs(metadata=metadata)
     _clone_templates(metadata=metadata)

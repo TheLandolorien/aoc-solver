@@ -5,12 +5,19 @@ import typing
 from importlib import util as import_utilities
 from types import ModuleType
 
-PACKAGE_NAME = os.path.basename(os.path.dirname(__file__))
+SRC_PATH, PACKAGE_NAME = os.path.split(os.path.dirname(__file__))
 
 
-def load_module(relative_module_name: str) -> typing.Union[ModuleType, None]:
-    module_name = ".".join([PACKAGE_NAME, relative_module_name])
-    module_spec = import_utilities.find_spec(name=module_name)
+def load_module(year: int, day: int) -> typing.Union[ModuleType, None]:
+    formatted_day = str(day).zfill(2)
+    module_name = f"{year}.day_{formatted_day}"
+    relative_module_name = ".".join([PACKAGE_NAME, module_name])
+
+    module_spec = None
+    try:
+        module_spec = import_utilities.find_spec(name=relative_module_name)
+    except ModuleNotFoundError:
+        os.mkdir(os.path.join(SRC_PATH, PACKAGE_NAME, str(year)))
 
     if not module_spec:
         return None

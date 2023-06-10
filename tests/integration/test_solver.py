@@ -13,12 +13,10 @@ def mock_missing_puzzle(project_directory, tmp_path):
     original_module_location = os.path.join(project_directory, "src/aoc_solver/2021")
     temporary_module_location = tmp_path / "src"
     os.rename(original_module_location, temporary_module_location)
-    os.mkdir(original_module_location)
 
     original_test_location = os.path.join(project_directory, "tests/aoc_solver/2021")
     temporary_test_location = tmp_path / "tests"
     os.rename(original_test_location, temporary_test_location)
-    os.mkdir(original_test_location)
 
     yield
 

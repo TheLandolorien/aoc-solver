@@ -92,9 +92,7 @@ def test_solve_existing_puzzle_with_valid_arguments(
 
     year, day = expected_dates
 
-    mock_utilities.load_module.assert_called_once_with(
-        relative_module_name=f"{year}.day_{str(day).zfill(2)}"
-    )
+    mock_utilities.load_module.assert_called_once_with(year=year, day=day)
     mock_puzzle_manager.read_puzzle_input.assert_called_once_with(year=year, day=day)
 
 
@@ -157,9 +155,7 @@ def test_solve_missing_puzzle_with_valid_arguments(
     ), f"should run {scenario}"
 
     year, day = expected_dates
-    mock_utilities.load_module.assert_any_call(
-        relative_module_name=f"{year}.day_{str(day).zfill(2)}"
-    )
+    mock_utilities.load_module.assert_any_call(year=year, day=day)
     assert (
         mock_utilities.load_module.call_count == 2
     ), "should reload module after creating resources"

@@ -4,7 +4,7 @@ import typing
 
 from datetime import datetime, timedelta, timezone
 
-from aoc_solver import object_types, utilities, puzzle_manager
+from aoc_solver import utilities, puzzle_manager
 
 SRC_PATH, PACKAGE_NAME = os.path.split(os.path.dirname(__file__))
 
@@ -53,13 +53,10 @@ def _validate_arguments() -> typing.Tuple[int, int]:
 def solve() -> None:
     year, day = _validate_arguments()
 
-    formatted_day = str(day).zfill(2)
-    module_name = f"{year}.day_{formatted_day}"
-
-    puzzle_module = utilities.load_module(relative_module_name=module_name)
+    puzzle_module = utilities.load_module(year=year, day=day)
     if not puzzle_module:
         puzzle_manager.create_puzzle_resources(year=year, day=day)
-        puzzle_module = utilities.load_module(relative_module_name=module_name)
+        puzzle_module = utilities.load_module(year=year, day=day)
 
     first, second = puzzle_module.solve(
         puzzle_input=puzzle_manager.read_puzzle_input(year=year, day=day)

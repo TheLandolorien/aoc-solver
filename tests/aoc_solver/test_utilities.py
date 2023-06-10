@@ -1,4 +1,4 @@
-from unittest.mock import mock_open, patch
+from unittest.mock import ANY, mock_open, patch
 
 import pytest
 
@@ -7,11 +7,9 @@ from aoc_solver import utilities
 
 @patch("aoc_solver.utilities.import_utilities")
 def test_load_module_locates_and_bootstraps_module(mock_importer):
-    assert (
-        utilities.load_module(relative_module_name="foo") is not None
-    ), "should load available module"
+    assert utilities.load_module(year=1900, day=1) is not None, "should load available module"
 
-    mock_importer.find_spec.assert_called_once_with(name=f"aoc_solver.foo")
+    mock_importer.find_spec.assert_called_once_with(name=f"aoc_solver.1900.day_01")
     mock_importer.module_from_spec.assert_called_once_with(
         spec=mock_importer.find_spec.return_value
     )
@@ -24,10 +22,22 @@ def test_load_module_locates_and_bootstraps_module(mock_importer):
 def test_load_module_return_none_for_unavailable_modules(mock_importer):
     mock_importer.find_spec.return_value = None
 
-    assert (
-        utilities.load_module(relative_module_name="foo") is None
-    ), "should skip load for unavailable module"
-    mock_importer.find_spec.assert_called_once_with(name=f"aoc_solver.foo")
+    assert utilities.load_module(year=1900, day=1) is None, "should skip load for missing module"
+
+    mock_importer.find_spec.assert_called_once_with(name="aoc_solver.1900.day_01")
+    mock_importer.module_from_spec.assert_not_called()
+
+
+@patch("aoc_solver.utilities.os")
+@patch("aoc_solver.utilities.import_utilities")
+def test_load_module_auto_creates_new_year_modules(mock_importer, mock_os):
+    mock_importer.find_spec.side_effect = ModuleNotFoundError
+
+    assert utilities.load_module(year=1900, day=1) is None, "should skip load for missing module"
+
+    mock_importer.find_spec.assert_called_once_with(name="aoc_solver.1900.day_01")
+    mock_os.path.join.assert_called_once_with(ANY, "aoc_solver", "1900")
+    mock_os.mkdir.assert_called_once_with(mock_os.path.join.return_value)
     mock_importer.module_from_spec.assert_not_called()
 
 
