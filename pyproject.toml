@@ -38,10 +38,13 @@ line-length = 100
 minversion = "7.2.0"
 pythonpath = "src"
 testpaths = "tests/aoc_solver"
-addopts = "-vv --import-mode=importlib --cov=src/aoc_solver --cov-report term-missing:skip-covered --cov-branch"
+addopts = "-vv --import-mode=importlib --strict-markers --cov=src/aoc_solver --cov-report term-missing:skip-covered --cov-branch"
+markers = [
+    "date_arg",
+]
 
 [tool.poetry.scripts]
-aoc-solver = "aoc_solver.solver:solve"
+aoc-solver = "aoc_solver.cli:run"
 
 [tool.poetry.urls]
 "Bug Tracker" = "https://github.com/thelandolorien/advent-of-code/issues"
