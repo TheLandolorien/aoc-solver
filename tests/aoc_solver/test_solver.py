@@ -2,7 +2,6 @@ import pytest
 from unittest.mock import Mock, patch
 
 from datetime import datetime
-from aoc_solver.object_types import PuzzleMetadata
 
 from aoc_solver import solver
 
@@ -16,16 +15,48 @@ def mock_puzzle_module():
     "scenario,invalid_args,additional_error_message",
     [
         ("raise when missing puzzle day", ["solve", "2015"], ""),
-        ("raise when given too many values", ["solve", "2015", "1", "foo"], ""),
         (
-            "raise when given invalid year",
+            "raise when given too many values",
+            ["solve", "2015", "1", "foo"],
+            "",
+        ),
+        (
+            "raise when given invalid year format",
             ["solve", "ABCD", "1"],
             "\nInvalid value ABCD for format %Y",
         ),
-        ("raise when given invalid day", ["solve", "2015", "Z"], "\nInvalid value Z for format %d"),
+        (
+            "raise when given invalid day format",
+            ["solve", "2015", "Z"],
+            "\nInvalid value Z for format %d",
+        ),
+        (
+            "raise when given future year",
+            ["solve", "2016", "1"],
+            "\nInvalid puzzle 2016 day 1: Not yet released",
+        ),
+        (
+            "raise when given day after 25th",
+            ["solve", "2015", "26"],
+            "\nInvalid day 26: Advent of Code is only 25 days per year",
+        ),
+        (
+            "raise when given date before 2015",
+            ["solve", "2014", "1"],
+            "\nInvalid year 2014: Advent of Code began in 2015",
+        ),
     ],
 )
-def test_solve_with_invalid_arguments(scenario, invalid_args, additional_error_message):
+@patch("aoc_solver.solver.datetime")
+@patch("aoc_solver.solver.utilities")
+def test_solve_with_invalid_arguments(
+    mock_utilities,
+    mock_datetime,
+    scenario,
+    invalid_args,
+    additional_error_message,
+):
+    mock_datetime.now.return_value = datetime(2015, 12, 1)
     sys_patch = patch("sys.argv", invalid_args)
 
     sys_patch.start()
@@ -38,9 +69,11 @@ def test_solve_with_invalid_arguments(scenario, invalid_args, additional_error_m
         str(err.value) == f"Usage: poetry run solve <YEAR> <DAY_NUMBER>{additional_error_message}"
     ), f"should {scenario}"
 
+    mock_utilities.load_module.assert_not_called()
+
 
 @pytest.mark.parametrize(
-    "scenario,now,cli_args,expected_dates",
+    "scenario,mock_now,cli_args,expected_dates",
     [
         (
             "latest solution available during active event",
@@ -60,7 +93,12 @@ def test_solve_with_invalid_arguments(scenario, invalid_args, additional_error_m
             ["solve"],
             (2022, 25),
         ),
-        ("previous solution given puzzle info", None, ["solve", "2015", "1"], (2015, 1)),
+        (
+            "previous solution given puzzle info",
+            datetime(2015, 12, 1),
+            ["solve", "2015", "1"],
+            (2015, 1),
+        ),
     ],
 )
 @patch("aoc_solver.solver.datetime")
@@ -71,13 +109,13 @@ def test_solve_existing_puzzle_with_valid_arguments(
     mock_puzzle_manager,
     mock_datetime,
     scenario,
-    now,
+    mock_now,
     cli_args,
     expected_dates,
     mock_puzzle_module,
     capsys,
 ):
-    mock_datetime.now.return_value = now
+    mock_datetime.now.return_value = mock_now
     mock_utilities.load_module.return_value = mock_puzzle_module
     sys_patch = patch("sys.argv", cli_args)
 
@@ -123,7 +161,12 @@ def test_solve_existing_puzzle_with_valid_arguments(
             ["solve"],
             (2022, 25),
         ),
-        ("previous solution given puzzle info", None, ["solve", "2015", "1"], (2015, 1)),
+        (
+            "previous solution given puzzle info",
+            datetime(2015, 12, 1),
+            ["solve", "2015", "1"],
+            (2015, 1),
+        ),
     ],
 )
 @patch("aoc_solver.solver.datetime")

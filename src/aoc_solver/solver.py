@@ -21,33 +21,48 @@ def _raise_for_incorrect_number_of_args() -> None:
 def _raise_for_invalid_dates(value: str, date_format: str) -> None:
     try:
         datetime.strptime(value, date_format)
+        return int(value)
     except ValueError as err:
         raise ValueError(f"{_get_usage()}\nInvalid value {value} for format {date_format}") from err
+
+
+def _determine_most_recent_puzzle_date() -> typing.Tuple[int, int]:
+    now = datetime.now(timezone(timedelta(hours=-5)))
+
+    year = now.year
+    day = now.day
+
+    if now.month != 12:
+        year -= 1
+        day = 25
+
+    if now.day > 25:
+        day = 25
+
+    return (year, day)
 
 
 def _validate_arguments() -> typing.Tuple[int, int]:
     _raise_for_incorrect_number_of_args()
 
+    latest_year, latest_day = _determine_most_recent_puzzle_date()
+
     if len(sys.argv) == 3:
-        year = sys.argv[1]
-        day = sys.argv[2]
+        year = _raise_for_invalid_dates(value=sys.argv[1], date_format="%Y")
+        day = _raise_for_invalid_dates(value=sys.argv[2], date_format="%d")
 
-        _raise_for_invalid_dates(value=year, date_format="%Y")
-        _raise_for_invalid_dates(value=day, date_format="%d")
-    else:
-        now = datetime.now(timezone(timedelta(hours=-5)))
+        if year < 2015:
+            raise ValueError(f"{_get_usage()}\nInvalid year {year}: Advent of Code began in 2015")
+        if day > 25:
+            raise ValueError(
+                f"{_get_usage()}\nInvalid day {day}: Advent of Code is only 25 days per year"
+            )
+        if year > latest_year or (year == latest_year and day > latest_day):
+            raise ValueError(f"{_get_usage()}\nInvalid puzzle {year} day {day}: Not yet released")
 
-        year = now.year
-        day = now.day
+        return (year, day)
 
-        if now.month != 12:
-            year -= 1
-            day = 25
-
-        if now.day > 25:
-            day = 25
-
-    return (int(year), int(day))
+    return (latest_year, latest_day)
 
 
 def solve() -> None:
