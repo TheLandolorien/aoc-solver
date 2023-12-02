@@ -8,7 +8,7 @@ from selenium.webdriver.support import expected_conditions
 
 AOC_URL = "https://adventofcode.com"
 CALLBACK_URL = f"{AOC_URL}/auth/github/callback"
-CLIENT_ID = "7bb0a7ec13388aa67963"
+CLIENT_ID = "b0b9e4e723fdb8841400"  # Be sure to pull the latest client ID
 OAUTH_QUERY_PARAMS = f"client_id={CLIENT_ID}&duration=temporary&redirect_uri={CALLBACK_URL}&response_type=code&scope=&state=x"
 AUTHORIZE_ENDPOINT = "https://github.com/login/oauth/authorize"
 OAUTH_AUTHORIZE_URL = f"{AUTHORIZE_ENDPOINT}?{OAUTH_QUERY_PARAMS}"
