@@ -9,7 +9,7 @@ from aoc_solver.object_types import Solution
 GAME_SCENARIO = {"red": 12, "green": 13, "blue": 14}
 
 
-def sum_possible_game_ids(puzzle_input=typing.List[str]) -> int:
+def sum_possible_game_ids(puzzle_input: typing.List[str]) -> int:
     game_record = parse_input(puzzle=puzzle_input)
     possible_game_ids = []
     for idx, game in enumerate(game_record):
@@ -20,7 +20,7 @@ def sum_possible_game_ids(puzzle_input=typing.List[str]) -> int:
     return sum(possible_game_ids)
 
 
-def sum_cube_set_powers(puzzle_input=typing.List[str]) -> int:
+def sum_cube_set_powers(puzzle_input: typing.List[str]) -> int:
     game_record = parse_input(puzzle=puzzle_input)
     set_powers = []
     for game in game_record:
@@ -62,7 +62,7 @@ def parse_input(puzzle=typing.List[str]) -> typing.List[typing.List[typing.Dict[
     ]
 
 
-def solve(puzzle_input=typing.List[str]) -> Solution:
+def solve(puzzle_input: typing.List[str]) -> Solution:
     return Solution(
         first=sum_possible_game_ids(puzzle_input=puzzle_input),
         second=sum_cube_set_powers(puzzle_input=puzzle_input),

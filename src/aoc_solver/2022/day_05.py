@@ -55,7 +55,7 @@ def move_crates(
     return flattened_stacks
 
 
-def solve(puzzle_input=typing.List[str]) -> Solution:
+def solve(puzzle_input: typing.List[str]) -> Solution:
     stacks = puzzle_input[: (split_idx := puzzle_input.index(""))]
     steps = puzzle_input[split_idx + 1 :]
 

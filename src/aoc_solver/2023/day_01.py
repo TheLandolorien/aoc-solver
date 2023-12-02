@@ -35,7 +35,7 @@ def parse_alphanumeric_digit(num: str) -> str:
     return str(NUMBER_WORDS.index(num))
 
 
-def solve(puzzle_input=typing.List[str]) -> Solution:
+def solve(puzzle_input: typing.List[str]) -> Solution:
     return Solution(
         first=sum_calibration_values(document=puzzle_input),
         second=sum_calibration_values(document=puzzle_input, parse_words=True),

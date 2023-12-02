@@ -78,7 +78,7 @@ def find_smallest_deletable_directory_size_for_update(terminal_output: typing.Li
     return min_deletable_space
 
 
-def solve(puzzle_input=typing.List[str]) -> Solution:
+def solve(puzzle_input: typing.List[str]) -> Solution:
     # TODO: Refactor to pre-parse filesystem
     return Solution(
         first=calculate_total_directory_sizes_under_max(terminal_output=puzzle_input),

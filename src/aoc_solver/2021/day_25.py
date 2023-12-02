@@ -6,7 +6,7 @@ from aoc_solver.object_types import Solution
 # Source: https://adventofcode.com/2021/day/25
 
 
-def solve(puzzle_input=typing.List[str]) -> Solution:
+def solve(puzzle_input: typing.List[str]) -> Solution:
     return Solution(
         first=None,
         second=None,

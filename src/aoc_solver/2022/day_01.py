@@ -6,7 +6,7 @@ from aoc_solver.object_types import Solution
 # Source: https://adventofcode.com/2022/day/1
 
 
-def solve(puzzle_input=typing.List[str]) -> Solution:
+def solve(puzzle_input: typing.List[str]) -> Solution:
     carried_calories_per_elf = sum_carried_calories_per_elf(puzzle_input=puzzle_input)
 
     return Solution(
@@ -15,7 +15,7 @@ def solve(puzzle_input=typing.List[str]) -> Solution:
     )
 
 
-def sum_carried_calories_per_elf(puzzle_input=typing.List[str]) -> typing.List[int]:
+def sum_carried_calories_per_elf(puzzle_input: typing.List[str]) -> typing.List[int]:
     grouped_calories = ",".join(puzzle_input).split(",,")
     return [sum(map(int, elf_calories.split(","))) for elf_calories in grouped_calories]
 

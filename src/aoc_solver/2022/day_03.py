@@ -46,7 +46,7 @@ def find_common_item_type(rucksacks: typing.List[str]) -> str:
         return determine_intersection(*rucksacks)
 
 
-def solve(puzzle_input=typing.List[str]) -> Solution:
+def solve(puzzle_input: typing.List[str]) -> Solution:
     return Solution(
         first=calculate_total_common_item_priorities(rucksacks=puzzle_input[:]),
         second=calculate_total_common_item_priorities(rucksacks=puzzle_input[:], group_size=3),

@@ -19,7 +19,7 @@ def count_depth_increases(depths: typing.List[int], window_size: int = 1) -> int
     )
 
 
-def solve(puzzle_input=typing.List[str]) -> Solution:
+def solve(puzzle_input: typing.List[str]) -> Solution:
     depths = [int(depth) for depth in puzzle_input]
 
     return Solution(

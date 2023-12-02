@@ -55,7 +55,7 @@ def score_matches(matches: typing.List[typing.List[str]], calculator: FunctionTy
     return sum([calculator(*match) for match in matches])
 
 
-def solve(puzzle_input=typing.List[str]) -> Solution:
+def solve(puzzle_input: typing.List[str]) -> Solution:
     matches = [match.split(" ") for match in puzzle_input]
 
     return Solution(

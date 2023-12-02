@@ -32,7 +32,7 @@ def count_special_assignments(
     )
 
 
-def solve(puzzle_input=typing.List[str]) -> Solution:
+def solve(puzzle_input: typing.List[str]) -> Solution:
     assignment_pairs = [pair.split(",") for pair in puzzle_input]
 
     return Solution(
