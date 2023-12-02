@@ -5,6 +5,7 @@ from aoc_solver.object_types import Solution
 # $title
 # Source: https://adventofcode.com/$year/day/$day
 
+
 def solve(puzzle_input=typing.List[str]) -> Solution:
     return Solution(
         first=None,
