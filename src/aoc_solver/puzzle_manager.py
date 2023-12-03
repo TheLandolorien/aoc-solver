@@ -87,13 +87,13 @@ def _parse_puzzle_page(year: int, day: int) -> ExamplePuzzleInputParser:
 
 def _save_puzzle_inputs(metadata: PuzzleMetadata) -> PuzzleMetadata:
     _write_puzzle_input(
-        contents=metadata.example_input,
-        path=_build_puzzle_resource_path(year=metadata.year, day=metadata.day, is_test=True),
+        contents=metadata.puzzle_input,
+        path=_build_puzzle_resource_path(year=metadata.year, day=metadata.day),
     )
 
     _write_puzzle_input(
-        contents=metadata.puzzle_input,
-        path=_build_puzzle_resource_path(year=metadata.year, day=metadata.day),
+        contents=metadata.example_input,
+        path=_build_puzzle_resource_path(year=metadata.year, day=metadata.day, is_test=True),
     )
 
 
@@ -101,6 +101,7 @@ def _write_puzzle_input(contents: str, path: str) -> None:
     if not os.path.isfile(path=path):
         os.makedirs(name=os.path.dirname(path), exist_ok=True)
 
+        # TODO: Catch TypeError when no input is found
         with open(file=path, mode="w") as f:
             f.write(contents)
 
@@ -109,8 +110,8 @@ def _write_puzzle_input(contents: str, path: str) -> None:
 
 def create_puzzle_resources(year: int, day: int) -> None:
     metadata = _build_puzzle_metadata(year=year, day=day)
-    _save_puzzle_inputs(metadata=metadata)
     _clone_templates(metadata=metadata)
+    _save_puzzle_inputs(metadata=metadata)
 
 
 def read_puzzle_input(year: int, day: int) -> typing.List[str]:

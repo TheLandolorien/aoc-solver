@@ -11,6 +11,7 @@ PuzzleMetadata = namedtuple(
 
 class ExamplePuzzleInputParser(HTMLParser):
     example_input = None
+    should_check_for_example_code = False
     should_extract_example_input = False
 
     puzzle_title = None
@@ -19,6 +20,10 @@ class ExamplePuzzleInputParser(HTMLParser):
     def handle_starttag(self, tag, _) -> None:
         if tag == "h2":
             self.should_extract_puzzle_title = True
+        elif tag == "pre":
+            self.should_check_for_example_code = True
+        elif tag == "code" and self.should_check_for_example_code:
+            self.should_extract_example_input = True
 
     def handle_data(self, data):
         if self.should_extract_puzzle_title:
@@ -26,9 +31,8 @@ class ExamplePuzzleInputParser(HTMLParser):
             self.should_extract_puzzle_title = False
         elif self.should_extract_example_input and data != "\n":
             self.example_input = data
+            self.should_check_for_example_code = False
             self.should_extract_example_input = False
-        elif "For example" in data:
-            self.should_extract_example_input = True
 
 
 class FileSystemNode:
@@ -42,7 +46,6 @@ class FileSystemNode:
         parent: "FileSystemNode" = None,
         children: typing.List = None,
     ):
-
         if children and object_type == "file":
             raise AttributeError(self.ERROR_MESSAGE_INVALID_CHILD_ADDITION)
 

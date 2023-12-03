@@ -37,10 +37,10 @@ def test_run_with_missing_puzzle(mock_puzzle_resources, project_directory):
     result = os.popen(f"aoc-solver --date {year} {day}").read()
 
     assert result == (
-        f"Saved puzzle input to {project_directory}/tests/aoc_solver/{year}/test_day_{day}.txt\n"
-        f"Saved puzzle input to {project_directory}/src/aoc_solver/{year}/day_{day}.txt\n"
         f"Created puzzle module at {project_directory}/src/aoc_solver/{year}/day_{day}.py\n"
         f"Created puzzle module at {project_directory}/tests/aoc_solver/{year}/test_day_{day}.py\n"
+        f"Saved puzzle input to {project_directory}/src/aoc_solver/{year}/day_{day}.txt\n"
+        f"Saved puzzle input to {project_directory}/tests/aoc_solver/{year}/test_day_{day}.txt\n"
         "Part One: The puzzle answer is None\n"
         "Part Two: The puzzle answer is None\n"
     ), f"should downloading missing puzzle resources and default answers to None"
