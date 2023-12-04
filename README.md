@@ -15,17 +15,17 @@ You're still using a Python version manager like [pyenv](https://github.com/pyen
 If it is, clone this repo (if you need to) and just install/update dependencies using
 
 ```shell
-poetry install
+poetry update
 ```
 
-If not, well... have fun figuring out those new management tools and updating this [README](./README.md).
+If not, well... have fun figuring out those new management tools and updating this [README](./README.md) 😉.
 
 ### Displaying Solutions
 
 If you want to run a solution from a previous puzzle (say [Day 1: Calorie Counting from 2022](https://adventofcode.com/2022/day/1)), try:
 
 ```shell
-aoc-solver 2022 1
+aoc-solver --date 2022 1
 ```
 
 And ta-da! You're ready to jump back in! 🎉
@@ -53,13 +53,11 @@ As for tests, unit tests are in the `tests/aoc_solver/` directory (which mirrors
 
 ## 🧩 Adding New Puzzle Solutions
 
-Simply run `aoc-solver <year> <day>` to automatically download the example input and create a new solution module and corresponding test if it cannot find the requests puzzle solution. The functionality is idempotent (its safe to run back-to-back). It will only download resources if the solution module is missing and will not overwrite existing puzzle resources. (Worst case scenario: use `git` to roll-back any accidental overwrites 💻)
+Simply run `aoc-solver --date <year> <day>` to automatically download the example input and create a new solution module and corresponding test (if it hasn't been download already). The functionality is idempotent (it's safe to run back-to-back). It will only download resources if the solution module is missing and will not overwrite existing puzzle resources. (Worst case scenario: use `git` to roll-back any accidental overwrites 💻)
 
-If you want to download the latest puzzle available, run `aoc-solver` without any arguments.
+If you just want to download the latest puzzle available, you can run `aoc-solver` without any arguments.
 
-**NOTE**: There is currently a bug where puzzles for years without any previous solutions cannot be downloaded automatically. The workaround is to manually create the year directory before generating a new solution template (e.g., `mkdir src/aoc_solver/<YYYY>`)
-
-Huzzah! Running `pytest` with the new puzzle will automatically pass with a default solution of `None`. May you never be in a state of having untested code! 🙌🏾
+Huzzah! Running `pytest -k '<year> and <day>'` will automatically pass with a default solution of `None`. May you never be in a state of having untested code! 🙌🏾
 
 ## 🧪 Running Tests
 
@@ -89,7 +87,7 @@ You can run integration tests using
 pytest tests/integration
 ```
 
-The main integration test ([test_solver.py](./tests/integration/test_solver.py)) just makes sure the CLI arguments end up run the correct puzzle solution.
+The main integration test ([test_solver.py](./tests/integration/test_solver.py)) just makes sure the CLI arguments end up running the correct puzzle solution.
 
 ## 🪪 License
 
