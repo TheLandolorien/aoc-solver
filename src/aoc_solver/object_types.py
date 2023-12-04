@@ -59,6 +59,7 @@ class FileSystemNode:
         return f"{type(self).__name__}(name={self.name}, object_type={self.object_type}, size={self.size}, children={self.children})"
 
     def find_children(self, name: str) -> typing.List["FileSystemNode"]:
+        # deepcode ignore AttributeLoadOnNone: self.childen will initialize to an empty list
         return [node for node in self.children if node.name == name]
 
     def add_child(self, name: str, object_type: str, size: int = 0) -> None:
@@ -66,6 +67,7 @@ class FileSystemNode:
             raise AttributeError(self.ERROR_MESSAGE_INVALID_CHILD_ADDITION)
 
         node = FileSystemNode(name=name, object_type=object_type, size=size, parent=self)
+        # deepcode ignore AttributeLoadOnNone: self.childen will initialize to an empty list
         self.children.append(node)
 
         if node.object_type == "file":
@@ -73,6 +75,7 @@ class FileSystemNode:
             self.recalculate_size(new_node_size=node.size)
 
     def recalculate_size(self, new_node_size: int) -> None:
+        # deepcode ignore AttributeLoadOnNone: Avoid load due to while loop initiation
         parent = self.parent
         while parent:
             parent.size += new_node_size

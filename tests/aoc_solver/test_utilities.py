@@ -37,7 +37,7 @@ def test_load_module_auto_creates_new_year_modules(mock_importer, mock_os):
 
     mock_importer.find_spec.assert_called_once_with(name="aoc_solver.1900.day_01")
     mock_os.path.join.assert_called_once_with(ANY, "aoc_solver", "1900")
-    mock_os.mkdir.assert_called_once_with(mock_os.path.join.return_value)
+    mock_os.makedirs.assert_called_once_with(mock_os.path.join.return_value)
     mock_importer.module_from_spec.assert_not_called()
 
 

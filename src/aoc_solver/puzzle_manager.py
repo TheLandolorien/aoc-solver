@@ -51,6 +51,7 @@ def _clone_templates(metadata: PuzzleMetadata) -> None:
                 template_contents = Template(f.read())
 
             os.makedirs(name=os.path.dirname(module_path), exist_ok=True)
+            # deepcode ignore PT: Years and days are validated before writing paths
             with open(file=module_path, mode="w") as f:
                 f.write(
                     template_contents.substitute(
@@ -72,6 +73,7 @@ def _get_puzzle_input(year: int, day: int, auth_provider: str = "github") -> str
     session.cookies.set(name="session", value=session_cookie)
 
     puzzle_response = session.get(url=f"https://adventofcode.com/{year}/day/{day}/input")
+    session.close()
     puzzle_response.raise_for_status()
 
     return puzzle_response.text
@@ -102,6 +104,7 @@ def _write_puzzle_input(contents: str, path: str) -> None:
         os.makedirs(name=os.path.dirname(path), exist_ok=True)
 
         # TODO: Catch TypeError when no input is found
+        # deepcode ignore PT: Years and days are validated before writing paths
         with open(file=path, mode="w") as f:
             f.write(contents)
 

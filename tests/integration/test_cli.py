@@ -23,11 +23,11 @@ def mock_puzzle_resources(request, project_directory, tmp_path):
     yield
 
     shutil.rmtree(original_module_location)
-    os.mkdir(original_module_location)
+    os.makedirs(original_module_location)
     os.rename(temporary_module_location, original_module_location)
 
     shutil.rmtree(original_test_location)
-    os.mkdir(original_test_location)
+    os.makedirs(original_test_location)
     os.rename(temporary_test_location, original_test_location)
 
 

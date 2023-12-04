@@ -18,6 +18,7 @@ def _is_valid_session(session_cookie: str) -> bool:
     session.cookies.set(name="session", value=session_cookie)
 
     response = session.get(url="https://adventofcode.com/settings", allow_redirects=False)
+    session.close()
 
     return response.status_code == 200
 

@@ -17,7 +17,7 @@ def load_module(year: int, day: int) -> typing.Union[ModuleType, None]:
     try:
         module_spec = import_utilities.find_spec(name=relative_module_name)
     except ModuleNotFoundError:
-        os.mkdir(os.path.join(SRC_PATH, PACKAGE_NAME, str(year)))
+        os.makedirs(os.path.join(SRC_PATH, PACKAGE_NAME, str(year)))
 
     if not module_spec:
         return None
