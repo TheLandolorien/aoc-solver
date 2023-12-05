@@ -22,7 +22,7 @@ class ExamplePuzzleInputParser(HTMLParser):
             self.should_extract_puzzle_title = True
         elif tag == "pre":
             self.should_check_for_example_code = True
-        elif tag == "code" and self.should_check_for_example_code:
+        elif tag == "code" and self.should_check_for_example_code and self.example_input is None:
             self.should_extract_example_input = True
 
     def handle_data(self, data):
