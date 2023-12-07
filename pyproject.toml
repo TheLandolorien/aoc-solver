@@ -38,13 +38,33 @@ line-length = 100
 minversion = "7.2.0"
 pythonpath = "src"
 testpaths = "tests/aoc_solver"
-addopts = "-vv --import-mode=importlib --strict-markers --cov=src/aoc_solver --cov-report term-missing:skip-covered --cov-branch"
+addopts = "-vv --import-mode=importlib --strict-markers"
 markers = [
     "date_arg",
 ]
 
 [tool.poetry.scripts]
 aoc-solver = "aoc_solver.cli:run"
+
+[tool.poe.tasks.test]
+help = "Default: Run application test suites that support coverage"
+sequence = ["test-coverage"]
+
+[tool.poe.tasks.test-all]
+help = "Run all application test suites (without coverage)"
+sequence = ["test-unit", "test-integration"]
+
+[tool.poe.tasks.test-coverage]
+help = "Run application test suites that support coverage"
+cmd = "pytest --cov=src/aoc_solver --cov-fail-under=90 --cov-branch --cov-report term-missing:skip-covered tests/unit tests/integration"
+
+[tool.poe.tasks.test-integration]
+help = "Run integration tests only (without coverage)"
+cmd = "pytest tests/integration"
+
+[tool.poe.tasks.test-unit]
+help = "Run unit tests only (without coverage)"
+cmd = "pytest tests/unit"
 
 [tool.poetry.urls]
 "Bug Tracker" = "https://github.com/thelandolorien/advent-of-code/issues"
