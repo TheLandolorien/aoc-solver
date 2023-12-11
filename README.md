@@ -75,7 +75,7 @@ Running `pytest` with no arguments will:
 
 The [conftest.py](./tests/aoc_solver/conftest.py) for the `aoc_solver` package contains some helpful pytest fixtures:
 
-- `mock_puzzle_input`: Automatically loads the correct example puzzle input based on the context of the test being run.
+- `mock_puzzle_inputs`: Automatically loads the correct example puzzle inputs based on the context of the test being run.
 - `puzzle_module`: Automatically imports the module under test based on the context of the test being run (and allows us to have a numeric directory name when importing 😉).
 - `project_directory`: Returns the project root directory to help with path building.
 

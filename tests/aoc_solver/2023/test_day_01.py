@@ -1,20 +1,17 @@
-def test_solve_with_numerical_digits_only(puzzle_module, mock_puzzle_input):
-    first, second = puzzle_module.solve(puzzle_input=mock_puzzle_input)
-    assert first == 142, "should sum calibration values with digits only"
-    assert second == 142, "should sum calibration values with number words"
+import pytest
 
 
-def test_solve_with_number_words(puzzle_module):
-    mock_puzzle_input = [
-        "two1nine",
-        "eightwothree",
-        "abcone2threexyz",
-        "xtwone3four",
-        "4nineeightseven2",
-        "zoneight234",
-        "7pqrstsixteen",
-    ]
+@pytest.mark.parametrize("mock_puzzle_num,mock_solutions", [(1, (142, 142)), (2, (209, 281))])
+def test_solve_with_numerical_digits_only(
+    mock_puzzle_num,
+    mock_solutions,
+    puzzle_module,
+    mock_puzzle_inputs,
+):
+    mock_puzzle_input = mock_puzzle_inputs[mock_puzzle_num - 1]
+    mock_first, mock_second = mock_solutions
+
     first, second = puzzle_module.solve(puzzle_input=mock_puzzle_input)
 
-    assert first == 209, "should sum calibration values with digits only"
-    assert second == 281, "should sum calibration values with number words"
+    assert first == mock_first, "should sum calibration values with digits only"
+    assert second == mock_second, "should sum calibration values with number words"

@@ -1,11 +1,25 @@
 import pytest
 from enum import Enum
 
+import pytest
+
 from aoc_solver.object_types import Solution
 
 
-def test_solve_calculates_puzzle_answers(puzzle_module, mock_puzzle_input):
-    assert puzzle_module.solve(puzzle_input=mock_puzzle_input) == Solution(first=6440, second=5905)
+@pytest.mark.parametrize("mock_puzzle_num,mock_solutions", [(1, (6440, 5905))])
+def test_solve_calculates_puzzle_answers(
+    mock_puzzle_num,
+    mock_solutions,
+    puzzle_module,
+    mock_puzzle_inputs,
+):
+    mock_puzzle_input = mock_puzzle_inputs[mock_puzzle_num - 1]
+    mock_first, mock_second = mock_solutions
+
+    first, second = puzzle_module.solve(puzzle_input=mock_puzzle_input)
+
+    assert first == mock_first
+    assert second == mock_second
 
 
 @pytest.mark.parametrize(

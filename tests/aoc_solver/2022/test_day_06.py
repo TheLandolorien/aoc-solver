@@ -1,4 +1,5 @@
 import pytest
+
 from aoc_solver.object_types import Solution
 
 

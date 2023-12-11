@@ -2,14 +2,21 @@ import importlib
 import os
 import pytest
 import typing
+import glob
 
 from types import ModuleType
 
 
 @pytest.fixture(scope="module")
-def mock_puzzle_input(request) -> typing.List[str]:
-    with open(file=request.fspath.strpath.replace(".py", ".txt"), mode="r") as f:
-        return f.read().splitlines()
+def mock_puzzle_inputs(request) -> typing.List[typing.List[str]]:
+    dirname, basename = os.path.split(request.fspath.strpath)
+    examples = []
+
+    for strpath in sorted(glob.glob(pathname=f"{dirname}/{basename.replace('.py', '*.txt')}")):
+        with open(file=strpath, mode="r") as f:
+            examples.append(f.read().splitlines())
+
+    return examples
 
 
 @pytest.fixture(scope="module")
