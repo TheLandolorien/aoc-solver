@@ -1,3 +1,9 @@
 {
-  "python.analysis.extraPaths": ["./src"]
+  "python.analysis.extraPaths": [
+    "./src"
+  ],
+  "black-formatter.args": [
+    "--line-length",
+    "100"
+  ]
 }
