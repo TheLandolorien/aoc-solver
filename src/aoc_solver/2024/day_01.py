@@ -18,6 +18,14 @@ def sum_distances(left_list: typing.List[int], right_list: typing.List[int]) -> 
     return total
 
 
+def caluculate_similarity_score(left_list: typing.List[int], right_list: typing.List[int]) -> int:
+    score = 0
+    for l in left_list:
+        score += l * right_list.count(l)
+
+    return score
+
+
 def parse_puzzle(input: typing.List[str]) -> typing.Tuple[typing.List[int], typing.List[int]]:
     left = []
     right = []
@@ -34,5 +42,5 @@ def solve(puzzle_input: typing.List[str]) -> Solution:
     left, right = parse_puzzle(input=puzzle_input)
     return Solution(
         first=sum_distances(left_list=left, right_list=right),
-        second=None,
+        second=caluculate_similarity_score(left_list=left, right_list=right),
     )

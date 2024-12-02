@@ -8,7 +8,7 @@ def test_parse_puzzle(puzzle_module, mock_puzzle_inputs):
     assert right_list == [4, 3, 5, 3, 9, 3], "should extract right list"
 
 
-@pytest.mark.parametrize("mock_puzzle_num,mock_solutions", [(1, (11, None))])
+@pytest.mark.parametrize("mock_puzzle_num,mock_solutions", [(1, (11, 31))])
 def test_solve_calculates_puzzle_answers(
     mock_puzzle_num,
     mock_solutions,
@@ -21,4 +21,4 @@ def test_solve_calculates_puzzle_answers(
     first, second = puzzle_module.solve(puzzle_input=mock_puzzle_input)
 
     assert first == mock_first, "should find the total distance"
-    assert second == mock_second, "should <PART_2_SCENARIO>"
+    assert second == mock_second, "should calcuate similarity score"
