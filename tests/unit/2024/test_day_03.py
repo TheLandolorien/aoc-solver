@@ -1,7 +1,7 @@
 import pytest
 
 
-@pytest.mark.parametrize("mock_puzzle_num,mock_solutions", [(1, (161, None))])
+@pytest.mark.parametrize("mock_puzzle_num,mock_solutions", [(1, (161, 48))])
 def test_solve_calculates_puzzle_answers(
     mock_puzzle_num,
     mock_solutions,
@@ -14,4 +14,4 @@ def test_solve_calculates_puzzle_answers(
     first, second = puzzle_module.solve(puzzle_input=mock_puzzle_input)
 
     assert first == mock_first, "should total mul instructions"
-    assert second == mock_second, "should <PART_2_SCENARIO>"
+    assert second == mock_second, "should only total enabled mul instructions"
