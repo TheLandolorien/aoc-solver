@@ -21,9 +21,9 @@ def mock_puzzle_inputs(request) -> typing.List[typing.List[str]]:
 
 @pytest.fixture(scope="module")
 def puzzle_module(request) -> ModuleType:
-    package_name, year = request.fspath.dirname.split("/")[-2:]
+    year = request.fspath.dirname.split("/")[-1]
     puzzle_name = request.fspath.purebasename.removeprefix("test_")
-    return importlib.import_module(".".join([package_name, year, puzzle_name]))
+    return importlib.import_module(".".join(["aoc_solver", year, puzzle_name]))
 
 
 @pytest.fixture(scope="module")

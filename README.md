@@ -49,7 +49,7 @@ src/
 └── ...
 ```
 
-As for tests, unit tests are in the `tests/aoc_solver/` directory (which mirrors the `src/aoc_solver/` directory). Integration tests are under the `tests/integration/` directory.
+As for tests, unit tests are in the `tests/unit/` directory (which mirrors the `src/aoc_solver/` directory). Integration tests are under the `tests/integration/` directory.
 
 ## 🧩 Adding New Puzzle Solutions
 
@@ -57,23 +57,23 @@ Simply run `aoc-solver --date <year> <day>` to automatically download the exampl
 
 If you just want to download the latest puzzle available, you can run `aoc-solver` without any arguments.
 
-Huzzah! Running `pytest -k '<year> and <day>'` will automatically pass with a default solution of `None`. May you never be in a state of having untested code! 🙌🏾
+Huzzah! Running `pytest -k '<year> and day_<leading_zero_day>'` will automatically pass with a default solution of `None`. May you never be in a state of having untested code! 🙌🏾
 
 ## 🧪 Running Tests
 
-[`pytest`](https://docs.pytest.org/en/7.2.x/) is used as a test runner and its configuration can be found in the `tool.pytest.ini_options` section of [pyproject.toml](./pyproject.toml). [`pytest-cov`](https://pytest-cov.readthedocs.io/en/latest/index.html) is used as a coverage reporter.
+[`pytest`](https://docs.pytest.org/en/stable/) is used as a test runner and its configuration can be found in the `tool.pytest.ini_options` section of [pyproject.toml](./pyproject.toml). [`pytest-cov`](https://pytest-cov.readthedocs.io/en/latest/index.html) is used as a coverage reporter.
 
 Running `pytest` with no arguments will:
 
 - Automatically add `src` to `PYTHONPATH` (pythonpath: `src`)
-- Only run unit tests (testpaths: `tests/aoc_solver`)
+- Only run unit tests (testpaths: `tests/unit`)
 - Increase verbosity (`-vv`)
 - Use the `importlib` for its import mode (`--import-mode=importlib`)
 - Calculate coverage (using `pytest-cov`) and display any modules missing coverage
 
 ### Unit Tests
 
-The [conftest.py](./tests/aoc_solver/conftest.py) for the `aoc_solver` package contains some helpful pytest fixtures:
+The [conftest.py](./tests/conftest.py) for the `aoc_solver` package contains some helpful pytest fixtures:
 
 - `mock_puzzle_inputs`: Automatically loads the correct example puzzle inputs based on the context of the test being run.
 - `puzzle_module`: Automatically imports the module under test based on the context of the test being run (and allows us to have a numeric directory name when importing 😉).
@@ -87,7 +87,7 @@ You can run integration tests using
 pytest tests/integration
 ```
 
-The main integration test ([test_solver.py](./tests/integration/test_solver.py)) just makes sure the CLI arguments end up running the correct puzzle solution.
+The main integration test ([test_solver.py](./tests/integration/test_cli.py)) just makes sure the CLI arguments end up running the correct puzzle solution.
 
 ## 🪪 License
 

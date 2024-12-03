@@ -37,7 +37,7 @@ line-length = 100
 [tool.pytest.ini_options]
 minversion = "8.3.0"
 pythonpath = "src"
-testpaths = "tests/aoc_solver"
+testpaths = ["tests/unit"]
 addopts = "-vv --import-mode=importlib --strict-markers"
 markers = [
     "date_arg",

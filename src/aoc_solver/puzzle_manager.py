@@ -26,15 +26,15 @@ def _build_puzzle_metadata(year: int, day: int) -> PuzzleMetadata:
 def _build_puzzle_resource_path(
     year: int, day: int, is_test: bool = False, is_module: bool = False
 ) -> str:
-    top_directory = SRC_PATH
+    top_directory = os.path.join(SRC_PATH, PACKAGE_NAME)
     filename = f"day_{_format_day(day)}"
     file_extension = "py" if is_module else "txt"
 
     if is_test:
-        top_directory = os.path.join(os.path.dirname(SRC_PATH), "tests")
+        top_directory = os.path.join(os.path.dirname(SRC_PATH), "tests", "unit")
         filename = f"test_{filename}"
 
-    return os.path.join(top_directory, PACKAGE_NAME, str(year), f"{filename}.{file_extension}")
+    return os.path.join(top_directory, str(year), f"{filename}.{file_extension}")
 
 
 def _clone_templates(metadata: PuzzleMetadata) -> None:

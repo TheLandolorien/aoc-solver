@@ -16,7 +16,7 @@ def mock_puzzle_resources(request, project_directory, tmp_path):
     temporary_module_location = tmp_path / "src"
     os.rename(original_module_location, temporary_module_location)
 
-    original_test_location = os.path.join(project_directory, f"tests/aoc_solver/{year}")
+    original_test_location = os.path.join(project_directory, f"tests/unit/{year}")
     temporary_test_location = tmp_path / "tests"
     os.rename(original_test_location, temporary_test_location)
 
@@ -38,9 +38,9 @@ def test_run_with_missing_puzzle(mock_puzzle_resources, project_directory):
 
     assert result == (
         f"Created puzzle module at {project_directory}/src/aoc_solver/{year}/day_{day}.py\n"
-        f"Created puzzle module at {project_directory}/tests/aoc_solver/{year}/test_day_{day}.py\n"
+        f"Created puzzle module at {project_directory}/tests/unit/{year}/test_day_{day}.py\n"
         f"Saved puzzle input to {project_directory}/src/aoc_solver/{year}/day_{day}.txt\n"
-        f"Saved puzzle input to {project_directory}/tests/aoc_solver/{year}/test_day_{day}.txt\n"
+        f"Saved puzzle input to {project_directory}/tests/unit/{year}/test_day_{day}.txt\n"
         "Part One: The puzzle answer is None\n"
         "Part Two: The puzzle answer is None\n"
     ), f"should downloading missing puzzle resources and default answers to None"

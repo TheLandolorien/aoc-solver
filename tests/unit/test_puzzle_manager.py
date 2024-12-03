@@ -1,4 +1,4 @@
-from unittest.mock import ANY, mock_open, patch
+from unittest.mock import mock_open, patch
 
 from aoc_solver import puzzle_manager
 
@@ -16,7 +16,6 @@ def test_create_puzzle_resources_writes_missing_files(
     mock_requests,
     mock_parser,
     mock_authenticator,
-    project_directory,
 ):
     mock_os.path.isfile.return_value = False
 
@@ -36,10 +35,10 @@ def test_create_puzzle_resources_writes_missing_files(
     )
     mock_requests.Session.return_value.get.return_value.raise_for_status.assert_called_once()
     mock_os.path.isfile.assert_any_call(path=mock_os.path.join.return_value)
-    mock_os.path.join.assert_any_call(ANY, "aoc_solver", "2022", "day_01.txt")
-    mock_os.path.join.assert_any_call(ANY, "aoc_solver", "2022", "test_day_01.txt")
-    mock_os.path.join.assert_any_call(ANY, "aoc_solver", "2022", "day_01.py")
-    mock_os.path.join.assert_any_call(ANY, "aoc_solver", "2022", "test_day_01.py")
+    mock_os.path.join.assert_any_call(mock_os.path.join.return_value, "2022", "day_01.txt")
+    mock_os.path.join.assert_any_call(mock_os.path.join.return_value, "2022", "test_day_01.txt")
+    mock_os.path.join.assert_any_call(mock_os.path.join.return_value, "2022", "day_01.py")
+    mock_os.path.join.assert_any_call(mock_os.path.join.return_value, "2022", "test_day_01.py")
     mock_open.return_value.write.assert_any_call(mock_parser.return_value.example_input)
     mock_open.return_value.write.assert_any_call(
         mock_requests.Session.return_value.get.return_value.text
@@ -86,7 +85,7 @@ def test_read_puzzle_input_reads_puzzle_input(mock_utilities, mock_os, project_d
     assert (
         puzzle_input == mock_utilities.read_file.return_value
     ), "should read puzzle input via utilities"
-    mock_os.path.join.assert_called_once_with(
-        f"{project_directory}/src", "aoc_solver", "2022", "day_25.txt"
-    )
+    assert mock_os.path.join.call_count == 2, "should call os.join 2 times"
+    mock_os.path.join.assert_any_call(f"{project_directory}/src", "aoc_solver")
+    mock_os.path.join.assert_any_call(mock_os.path.join.return_value, "2022", "day_25.txt")
     mock_utilities.read_file.assert_called_once_with(path=mock_os.path.join.return_value)
