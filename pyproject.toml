@@ -19,7 +19,7 @@ classifiers = [
 ]
 
 [tool.poetry.dependencies]
-python = "3.10.4"
+python = "3.11.5"
 requests = "^2.31.0"
 selenium = "^4.7.2"
 
